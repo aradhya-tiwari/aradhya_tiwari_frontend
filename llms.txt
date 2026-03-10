@@ -1,0 +1,65 @@
+Hi Team,
+
+It was great having you in today’s first training session!
+
+Study Material Folder:  
+We have created a folder where study material for every session will be shared.
+You can access it here:  https://drive.google.com/drive/folders/1vSZKMEHa_bi-TyVrO12KQzqipG3Ng7bz?usp=sharing
+As part of continuing your hands-on learning, please complete the following Git assignment.
+The goal of this assignment is to help you get familiar with basic Git commands and workflows, which are commonly used in real-world software development.
+
+Assignment : 
+
+Create a New Repository
+
+Create a New File
+
+Create a Branch
+
+Make Changes in the New Branch
+
+Create Another Branch (Optional)
+
+Merge Branches
+
+Create an .env file, add the email to it, add that .env in .gitignore
+
+Pull Changes from Remote
+
+View Git Log and History
+
+Git Status and Staging
+
+Revert and Reset
+
+Submission:
+1. Create a document link explaining their approach/steps and add screenshots of all the actions taken
+2. In the document also mention the link to your Git repository 
+
+Once the assignment is complete upload the document link via the following Google Form.
+Google Form link - https://forms.gle/7cxDQa5LvGgfT3hr6
+
+Also share the path of your Git repository via the below Google Form
+https://forms.gle/pEXDeAukofdxWmkp8
+
+Please complete and submit the assignment by March 11, 2026.
+If you have any questions while working on this assignment, feel free to reach out.
+
+
+
+Regards,
+
+
+photo
+
+Pradip Thakre
+
+HR & Operations Executive -Human Empowerment | NucleusTeq
+
+7987767266| nucleusteq.com
+
+pradip.thakre@nucleusteq.com
+
+
+
+Disclaimer: This email and any attachments are confidential and intended only for the recipient. Unauthorized use or disclosure is prohibited. If you received this in error, please delete it and notify the sender. Nucleusteq complies with applicable data privacy and security laws.
