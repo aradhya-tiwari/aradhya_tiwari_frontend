@@ -1,8 +1,8 @@
 ### Assignment Frontend 
-Folder:- frontend, 
-Branches: html, css
+- Folder:- frontend,
+- Branches: html, css
 
 ### Assignment Git 
-Folder:- Git
-Branches:- feat-about, feat-llmstxt
+- Folder:- Git
+- Branches:- feat-about, feat-llmstxt
 
