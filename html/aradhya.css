@@ -8,3 +8,19 @@ body {
     box-sizing: border-box;
     background-color: aliceblue;
 }
+
+#navUl {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+#about {}
+
+#education {}
+
+.def-margin {
+    margin: 3% 15% 0 15%
+}
