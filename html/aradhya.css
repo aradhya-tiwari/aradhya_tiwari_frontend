@@ -14,7 +14,7 @@
 }
 
 body {
-    padding: 2rem;
+    padding: 0;
     margin: 0;
     box-sizing: border-box;
     background-color: aliceblue;
@@ -50,6 +50,8 @@ h3 {
 
 h2 {
     color: #283342;
+    text-align: center;
+    margin: 2rem 0
 }
 
 p {
@@ -126,6 +128,8 @@ ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
+    width: 95%;
+    margin: 0 auto;
 }
 
 .skill-card,
@@ -263,4 +267,12 @@ hr {
 #contact input[type="submit"]:hover {
     background: var(--primary-dark);
     box-shadow: var(--shadow-soft);
+}
+
+footer {
+    background-color: var(--primary-dark);
+    color: var(--surface-color);
+    text-align: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 1rem 0;
 }
