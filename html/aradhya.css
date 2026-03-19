@@ -42,10 +42,13 @@ a:hover {
 }
 
 h1,
-h2,
 h3 {
     color: #102540;
     margin-top: 0;
+}
+
+h2 {
+    color: #283342;
 }
 
 p {
@@ -194,4 +197,68 @@ ul {
     &:hover {
         background: rgba(54, 104, 255, 0.08);
     }
+}
+
+hr {
+    margin: 2rem 0;
+    box-shadow: var(--shadow-soft);
+    width: 80%;
+}
+
+#contact {
+    width: min(720px, 100%);
+    margin: 2rem auto 0;
+    padding: 1.5rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+}
+
+#contact form {
+    margin-top: 1rem;
+}
+
+#contact input[type="text"],
+#contact select,
+#contact textarea {
+    width: 100%;
+    margin: 0.45rem 0 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: --var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#contact input[type="text"]:focus,
+#contact select:focus,
+#contact textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(54, 104, 255, 0.12);
+}
+
+#contact textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+#contact input[type="submit"] {
+    border: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.4rem;
+    background: var(--primary-color);
+    color: var(--surface-color);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#contact input[type="submit"]:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-soft);
 }
