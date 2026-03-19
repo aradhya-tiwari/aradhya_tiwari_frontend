@@ -23,9 +23,10 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-#about {}
+#about>p {
+    margin: 1rem 15%;
+}
 
-#education {}
 
 .def-margin {
     margin: 3% 15% 0 15%
@@ -200,9 +201,10 @@ ul {
 }
 
 hr {
-    margin: 2rem 0;
+    margin: 2rem auto;
     box-shadow: var(--shadow-soft);
     width: 80%;
+
 }
 
 #contact {
