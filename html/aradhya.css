@@ -160,3 +160,38 @@ ul {
     border-radius: 12px;
     margin-bottom: 0.75rem;
 }
+
+#education table {
+    width: min(720px, 100%);
+    margin: 1rem auto 0;
+    overflow: hidden;
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: var(--shadow-soft);
+}
+
+#education th,
+#education td {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+
+
+}
+
+#education th {
+    background: rgba(54, 104, 255, 0.12);
+    color: #102540;
+    font-weight: 700;
+}
+
+#education tr:nth-child(even) td {
+    background: rgba(54, 104, 255, 0.04);
+}
+
+#education tr {
+    &:hover {
+        background: rgba(54, 104, 255, 0.08);
+    }
+}
