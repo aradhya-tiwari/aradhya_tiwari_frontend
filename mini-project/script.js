@@ -9,3 +9,23 @@ const products = [
     { id: 7, name: "Office Chair", category: "Furniture", price: 89.0, stock: 2 },
     { id: 8, name: "Laptop Sleeve", category: "Accessories", price: 21.49, stock: 6 }
 ];
+
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const stockFilter = document.getElementById("stockFilter");
+const sortFilter = document.getElementById("sortFilter");
+const productList = document.getElementById("productList");
+const resultsCount = document.getElementById("resultsCount");
+const emptyState = document.getElementById("emptyState");
+
+function populateCategories() {
+    const categories = [...new Set(products.map((product) => product.category))];
+
+    categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+populateCategories()
