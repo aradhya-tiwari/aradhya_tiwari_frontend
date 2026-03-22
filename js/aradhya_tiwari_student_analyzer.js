@@ -21,7 +21,17 @@ const students = [
     ],
     attendance: 91
   },
-
+  {
+    name: "John",
+    marks: [
+      { subject: "Math", score: 66 },
+      { subject: "English", score: 85 },
+      { subject: "Science", score: 70 },
+      { subject: "History", score: 76 },
+      { subject: "Computer", score: 92 }
+    ],
+    attendance: 70
+  },
   {
     name: "Aradhya",
     marks: [
