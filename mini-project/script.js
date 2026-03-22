@@ -16,6 +16,7 @@ const sortFilter = document.getElementById("sortFilter");
 const productList = document.getElementById("productList");
 const resultsCount = document.getElementById("resultsCount");
 const emptyState = document.getElementById("emptyState");
+const insights = document.getElementById("insights")
 
 let localStorageKey = Object.keys(localStorage)
 // since we are 
@@ -131,9 +132,10 @@ async function renderProducts() {
         // appending current product to productList otherwise it wont be visible in the DOM.
         productList.appendChild(card);
     });
+
 }
 // Add product function, first get all values from the form field using .value then push it to memProducts then call necessary functions, 
-function addProduct() {
+async function addProduct() {
     let pName = document.getElementById("pName").value
     let pPrice = document.getElementById("pPrice").value
     let pStock = document.getElementById("pStock").value
@@ -151,9 +153,25 @@ function addProduct() {
     // to repo;ulate categories since we maybe adding new category
     populateCategories()
     // showing new product to product list
-    renderProducts()
+    await renderProducts()
 }
 
+function addInsights() {
+    let totalProducts = memProducts.length
+    let totalInventoryValue = 0;
+    let outStock = 0
+    memProducts.forEach(e => totalInventoryValue += e.price * e.stock)
+    memProducts.forEach(e => {
+        if (e.stock < 1) outStock++
+    })
+    document.getElementById("insights").innerHTML = `
+    <p class="shadow-sm py-1 my-3 text-center text-white bg-green-300">Total Inventory worth: ${Math.round(totalInventoryValue)}<p>
+     <p class="shadow-sm py-1 my-3 text-center text-white bg-blue-300">Total Product Count: ${Math.round(totalProducts)}<p>
+    <p class="shadow-sm py-1 my-3 text-center text-white bg-red-300">Total Out of stock items: ${Math.round(outStock)}<p>
+
+        
+    `
+}
 // We are adding event listner which will trigger if we write anything to input (search box) or change a select field
 [searchInput, categoryFilter, stockFilter, sortFilter].forEach((control) => {
     control.addEventListener("input", renderProducts);
@@ -161,6 +179,7 @@ function addProduct() {
 });
 
 // Callling all the functions 
+addInsights()
 populateCategories()
 syncToLocalstorage()
 renderProducts()
