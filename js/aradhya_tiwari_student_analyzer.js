@@ -65,3 +65,36 @@ for (let s of students) {
 }
 
 console.log("--------------------------------")
+
+function subjectWiseHighestMarks(student) {
+  let highestScore = student.marks[0].score;
+  let highestSubjects = [student.marks[0].subject];
+
+  for (let i = 1; i < student.marks.length; i++) {
+    const currentMark = student.marks[i];
+
+    if (currentMark.score > highestScore) {
+      highestScore = currentMark.score;
+      highestSubjects = [currentMark.subject];
+    } else if (currentMark.score === highestScore) {
+      highestSubjects.push(currentMark.subject);
+    }
+  }
+
+  return {
+    highestScore: highestScore,
+    highestSubjects: highestSubjects
+  };
+}
+
+console.log("Subject-wise highest marks of each student");
+
+for (let s of students) {
+  const studentHighest = subjectWiseHighestMarks(s);
+
+  console.log(
+    `${s.name} highest in ${studentHighest.highestSubjects.join(", ")}: ${studentHighest.highestScore}`
+  );
+}
+
+console.log("--------------------------------")
