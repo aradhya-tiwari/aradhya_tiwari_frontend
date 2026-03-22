@@ -127,6 +127,28 @@ function renderProducts() {
         productList.appendChild(card);
     });
 }
+// Add product function, first get all values from the form field using .value then push it to memProducts then call necessary functions, 
+function addProduct() {
+    let pName = document.getElementById("pName").value
+    let pPrice = document.getElementById("pPrice").value
+    let pStock = document.getElementById("pStock").value
+    let pCategory = document.getElementById("pCategory").value
+    memProducts.push({
+        id: localStorageKey.length + 2,
+        name: pName,
+        category: pCategory,
+        price: Number(pPrice),
+        stock: Number(pStock),
+    })
+    console.log(memProducts)
+    // To Sync changes to localstorage
+    syncToLocalstorage()
+    // to repo;ulate categories since we maybe adding new category
+    populateCategories()
+    // showing new product to product list
+    renderProducts()
+}
+
 // We are adding event listner which will trigger if we write anything to input (search box) or change a select field
 [searchInput, categoryFilter, stockFilter, sortFilter].forEach((control) => {
     control.addEventListener("input", renderProducts);

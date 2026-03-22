@@ -77,6 +77,32 @@
                     No products match the selected filters.
                 </p>
             </section>
+            <section class=" mt-5 ">
+                <form action="#" method="get"
+                    class="bg-white w-[800px] m-auto p-5 rounded-lg border flex flex-col gap-2 px-20">
+                    <h1 class="text-xl font-semibold my-2">Add Products </h1>
+                    <div>
+                        Name: <input type="text" name="pName" id="pName"
+                            class="border px-2 rounded-md py-1 w-full m-auto" required>
+                    </div>
+                    <div>
+                        Price: <input type="number" name="pPrice" id="pPrice"
+                            class="border rounded-md py-1 px-2 w-full m-auto" required>
+                    </div>
+                    <div>
+                        Quantity: <input type="number" name="pStock" id="pStock"
+                            class="border rounded-md py-1 px-2 w-full m-auto" required> <br>
+                    </div>
+                    <div>
+                        Category:
+                        <input type="text" name="pCategory" id="pCategory"
+                            class="border rounded-md py-1 px-2 w-full m-auto" required> <br>
+
+                    </div>
+                    <input type="submit" value="Submit" onclick="addProduct()"
+                        class="bg-blue-300 rounded-lg text-white py-2 hover:shadow-lg transition-all active:border-2">
+                </form>
+            </section>
         </main>
     </div>
     <script src="./script.js"></script>
