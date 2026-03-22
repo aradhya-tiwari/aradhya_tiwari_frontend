@@ -142,6 +142,26 @@ for (let subject in subjectAverageData.subjectTotals) {
 console.log("--------------------------------")
 
 
-function overallClassTopper(student) {
-
+function overallClassTopper() {
+  let topper = {
+    name: "",
+    marks: ''
+  }
+  let maxMarks = -1
+  for (let s in students) {
+    let totalMarks = 0
+    students[s].marks.forEach(s => {
+      totalMarks += s.score
+    })
+    if (maxMarks < totalMarks) {
+      maxMarks = totalMarks
+      topper.name = students[s].name
+      topper.marks = maxMarks
+    }
+  }
+  return topper
 }
+
+console.log("Class Topper")
+let topperMap = overallClassTopper()
+console.log(`${topperMap.name} is the class topper with ${topperMap.marks}`)
