@@ -45,10 +45,23 @@ function calculateTotalMarks(student) {
     total += student.marks[i].score;
   }
 
-  console.log(`${student.name} total marks = ${total}`)
+  return total
 }
 
 for (let s of students) {
-  calculateTotalMarks(s)
+  console.log(`${s.name} total marks = ${calculateTotalMarks(s)}`)
+
+}
+console.log("---------------------------")
+
+function calculateAverageMarks(student) {
+  const total = calculateTotalMarks(student);
+  return total / student.marks.length
+
 }
 
+for (let s of students) {
+  console.log(`${s.name} average marks: ${calculateAverageMarks(s)}`);
+}
+
+console.log("--------------------------------")
