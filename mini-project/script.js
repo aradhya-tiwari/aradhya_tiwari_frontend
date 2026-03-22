@@ -1,5 +1,5 @@
 // Sample products, used chatgpt for this products array 
-const products = [
+const memProducts = [
     { id: 1, name: "Wireless Mouse", category: "Electronics", price: 25.99, stock: 12 },
     { id: 2, name: "Notebook", category: "Stationery", price: 4.5, stock: 30 },
     { id: 3, name: "Water Bottle", category: "Accessories", price: 12.75, stock: 4 },
@@ -10,6 +10,25 @@ const products = [
     { id: 8, name: "Laptop Sleeve", category: "Accessories", price: 21.49, stock: 6 }
 ];
 
+let localStorageKey = Object.keys(localStorage)
+let products = localStorageKey.map(e => localStorage.getItem(e))
+
+function syncToLocalstorage() {
+    for (let i in memProducts) {
+        let curProd = memProducts[i]
+        if (!localStorageKey.includes()) {
+            localStorage.setItem(curProd.id, JSON.stringify(curProd))
+        }
+    }
+    // So that new products will have their ids in localstorageKey
+    localStorageKey = Object.keys(localStorage)
+    products = localStorageKey.map(e => localStorage.getItem(e))
+}
+syncToLocalstorage()
+
+function clearLocalstorage() {
+    localStorage.clear()
+}
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
 const stockFilter = document.getElementById("stockFilter");
