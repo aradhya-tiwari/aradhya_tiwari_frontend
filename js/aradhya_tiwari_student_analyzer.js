@@ -36,3 +36,19 @@ const students = [
 ];
 
 console.log(students)
+
+
+function calculateTotalMarks(student) {
+  let total = 0;
+
+  for (let i = 0; i < student.marks.length; i++) {
+    total += student.marks[i].score;
+  }
+
+  console.log(`${student.name} total marks = ${total}`)
+}
+
+for (let s of students) {
+  calculateTotalMarks(s)
+}
+
