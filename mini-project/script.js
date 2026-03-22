@@ -22,6 +22,11 @@ let localStorageKey = Object.keys(localStorage)
 let products = localStorageKey.map(e => JSON.parse(localStorage.getItem(e)))
 console.log("products", products)
 
+function fetchProducts() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(products), 1000)
+    })
+}
 function populateCategories() {
     const categories = [...new Set(products.map((product) => product.category))];
 
@@ -51,14 +56,14 @@ function clearLocalstorage() {
 }
 
 // function to filter products 
-function getFilteredProducts() {
+async function getFilteredProducts() {
     const query = searchInput.value.trim().toLowerCase();
     const selectedCategory = categoryFilter.value;
     const selectedStock = stockFilter.value;
     const selectedSort = sortFilter.value;
-    console.log(products)
     // filtered product 
-    const filteredProducts = products.filter((product) => {
+    let fetchedProducts = await fetchProducts()
+    const filteredProducts = fetchedProducts.filter((product) => {
         // Checks whether the search query is included in the current product if no search query the it will be "" which is included in every product
         const matchesSearch = product.name.toLowerCase().includes(query);
         // checks if selectCategory is all, if not is the product.category equals selecteCategory
@@ -88,8 +93,8 @@ function getFilteredProducts() {
     return filteredProducts;
 }
 // render products on dom, here we will insert products in productList's innerHTML which is unsafe
-function renderProducts() {
-    const filteredProducts = getFilteredProducts();
+async function renderProducts() {
+    const filteredProducts = await getFilteredProducts();
 
     productList.innerHTML = "";
     // show total results found from filteredProducts length
