@@ -49,10 +49,9 @@ function calculateTotalMarks(student) {
 }
 
 console.log("Total marks")
-for (let s of students) {
+students.forEach(function (s) {
   console.log(`${s.name} total marks = ${calculateTotalMarks(s)}`)
-
-}
+});
 console.log("---------------------------")
 
 function calculateAverageMarks(student) {
@@ -62,9 +61,10 @@ function calculateAverageMarks(student) {
 }
 
 console.log("Average Marks")
-for (let s of students) {
+students.forEach(s => {
+
   console.log(`${s.name} average marks: ${calculateAverageMarks(s)}`);
-}
+})
 
 console.log("--------------------------------")
 
@@ -140,3 +140,8 @@ for (let subject in subjectAverageData.subjectTotals) {
 }
 
 console.log("--------------------------------")
+
+
+function overallClassTopper(student) {
+
+}
