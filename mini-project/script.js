@@ -128,6 +128,7 @@ async function renderProducts() {
                 <span>Price: $${product.price.toFixed(2)}</span>
                 <span>Stock: ${product.stock}</span>
             </div>
+            <button class="bg-red-500 mt-3 px-2 py-1 rounded-md text-white" onclick="deleteProduct(${product.id})">Delete</button>
         `;
         // appending current product to productList otherwise it wont be visible in the DOM.
         productList.appendChild(card);
@@ -157,13 +158,14 @@ async function addProduct() {
 }
 
 function addInsights() {
-    let totalProducts = memProducts.length
+    let totalProducts = products.length
     let totalInventoryValue = 0;
     let outStock = 0
-    memProducts.forEach(e => totalInventoryValue += e.price * e.stock)
-    memProducts.forEach(e => {
+    products.forEach(e => totalInventoryValue += e.price * e.stock)
+    products.forEach(e => {
         if (e.stock < 1) outStock++
     })
+    // again this is unsafe, if framework was used we could simply map them out there
     document.getElementById("insights").innerHTML = `
     <p class="shadow-sm py-1 my-3 text-center text-white bg-green-300">Total Inventory worth: ${Math.round(totalInventoryValue)}<p>
      <p class="shadow-sm py-1 my-3 text-center text-white bg-blue-300">Total Product Count: ${Math.round(totalProducts)}<p>
@@ -171,6 +173,23 @@ function addInsights() {
 
         
     `
+}
+
+async function deleteProduct(id) {
+    for (let i in memProducts) {
+        console.log(i)
+        if (products[i].id === id) {
+            // delete 1 element
+            console.log("called")
+            memProducts.splice(i, 1)
+            products.splice(i, 1)
+            localStorage.removeItem((i).toString())
+            break;
+        }
+    }
+    // syncToLocalstorage()
+    await renderProducts()
+    console.log("Product Deleted")
 }
 // We are adding event listner which will trigger if we write anything to input (search box) or change a select field
 [searchInput, categoryFilter, stockFilter, sortFilter].forEach((control) => {
