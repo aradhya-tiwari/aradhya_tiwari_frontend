@@ -9,9 +9,28 @@ const memProducts = [
     { id: 7, name: "Office Chair", category: "Furniture", price: 89.0, stock: 2 },
     { id: 8, name: "Laptop Sleeve", category: "Accessories", price: 21.49, stock: 6 }
 ];
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const stockFilter = document.getElementById("stockFilter");
+const sortFilter = document.getElementById("sortFilter");
+const productList = document.getElementById("productList");
+const resultsCount = document.getElementById("resultsCount");
+const emptyState = document.getElementById("emptyState");
 
 let localStorageKey = Object.keys(localStorage)
-let products = localStorageKey.map(e => localStorage.getItem(e))
+// since we are 
+let products = localStorageKey.map(e => JSON.parse(localStorage.getItem(e)))
+console.log(products)
+function populateCategories() {
+    const categories = [...new Set(products.map((product) => product.category))];
+
+    categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
 
 function syncToLocalstorage() {
     for (let i in memProducts) {
@@ -24,27 +43,11 @@ function syncToLocalstorage() {
     localStorageKey = Object.keys(localStorage)
     products = localStorageKey.map(e => localStorage.getItem(e))
 }
-syncToLocalstorage()
 
 function clearLocalstorage() {
     localStorage.clear()
 }
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const stockFilter = document.getElementById("stockFilter");
-const sortFilter = document.getElementById("sortFilter");
-const productList = document.getElementById("productList");
-const resultsCount = document.getElementById("resultsCount");
-const emptyState = document.getElementById("emptyState");
 
-function populateCategories() {
-    const categories = [...new Set(products.map((product) => product.category))];
 
-    categories.forEach((category) => {
-        const option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        categoryFilter.appendChild(option);
-    });
-}
+syncToLocalstorage()
 populateCategories()
