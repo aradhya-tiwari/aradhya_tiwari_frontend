@@ -76,7 +76,7 @@ students.forEach(s => {
   console.log(`${s.name} average marks: ${calculateAverageMarks(s)}`);
 })
 
-console.log("--------------------------------")
+console.log("-------______------------_____--------")
 
 function subjectWiseHighestMarks(student) {
   let highestScore = student.marks[0].score;
@@ -111,7 +111,7 @@ for (let s of students) {
   );
 }
 
-console.log("--------------------------------")
+console.log("-------------------------------")
 
 function subjectWiseAverageMarks(studentList) {
   // Subject total map and subject count map subject wise average = subject total/subject count for each student
@@ -149,7 +149,7 @@ for (let subject in subjectAverageData.subjectTotals) {
   console.log(`Average ${subject} Score: ${averageScore.toFixed(1)}`);
 }
 
-console.log("--------------------------------")
+console.log("----------------------------------")
 
 
 function overallClassTopper() {
@@ -175,3 +175,42 @@ function overallClassTopper() {
 console.log("Class Topper")
 let topperMap = overallClassTopper()
 console.log(`${topperMap.name} is the class topper with ${topperMap.marks}`)
+console.log("-------------------------------------------")
+
+
+
+
+function getGrades(average) {
+  if (average >= 85) {
+    return "A";
+  }
+
+  if (average >= 70) {
+    return "B";
+  }
+
+  if (average >= 50) {
+    return "C";
+  }
+
+  return "Fail";
+}
+
+
+for (let s in students) {
+  console.log(`${students[s].name} got ${getGrades(calculateAverageMarks(students[s]))}`)
+}
+console.log("----------------")
+function checkFailure(student) {
+
+  if (student.attendance < 75) {
+    console.log(student.name + " failed low attendance")
+  }
+  student.marks.forEach((mark) => {
+    if (mark.score <= 40) {
+      failed = true
+      console.log(student.name + " failed, low marks in " + mark.subject)
+    }
+  })
+}
+students.forEach(s => (checkFailure(s)))
