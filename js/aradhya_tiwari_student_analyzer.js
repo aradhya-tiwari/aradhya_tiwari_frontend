@@ -48,6 +48,7 @@ function calculateTotalMarks(student) {
   return total
 }
 
+console.log("Total marks")
 for (let s of students) {
   console.log(`${s.name} total marks = ${calculateTotalMarks(s)}`)
 
@@ -60,6 +61,7 @@ function calculateAverageMarks(student) {
 
 }
 
+console.log("Average Marks")
 for (let s of students) {
   console.log(`${s.name} average marks: ${calculateAverageMarks(s)}`);
 }
@@ -76,7 +78,9 @@ function subjectWiseHighestMarks(student) {
     if (currentMark.score > highestScore) {
       highestScore = currentMark.score;
       highestSubjects = [currentMark.subject];
-    } else if (currentMark.score === highestScore) {
+    }
+    // for scenario when multiple highest scored subject exists, updating highestScore is not necessary, already updated
+    else if (currentMark.score === highestScore) {
       highestSubjects.push(currentMark.subject);
     }
   }
@@ -95,6 +99,44 @@ for (let s of students) {
   console.log(
     `${s.name} highest in ${studentHighest.highestSubjects.join(", ")}: ${studentHighest.highestScore}`
   );
+}
+
+console.log("--------------------------------")
+
+function subjectWiseAverageMarks(studentList) {
+  // Subject total map and subject count map subject wise average = subject total/subject count for each student
+  const subjectTotals = {};
+  const subjectCounts = {};
+
+  for (let i = 0; i < studentList.length; i++) {
+    for (let j = 0; j < studentList[i].marks.length; j++) {
+      const currentMark = studentList[i].marks[j];
+
+      if (!subjectTotals[currentMark.subject]) {
+        subjectTotals[currentMark.subject] = 0;
+        subjectCounts[currentMark.subject] = 0;
+      }
+
+      subjectTotals[currentMark.subject] += currentMark.score;
+      subjectCounts[currentMark.subject] += 1;
+    }
+  }
+
+  return {
+    subjectTotals: subjectTotals,
+    subjectCounts: subjectCounts
+  };
+}
+
+const subjectAverageData = subjectWiseAverageMarks(students);
+
+console.log("Subject wise average scores");
+
+for (let subject in subjectAverageData.subjectTotals) {
+  const averageScore =
+    subjectAverageData.subjectTotals[subject] / subjectAverageData.subjectCounts[subject];
+
+  console.log(`Average ${subject} Score: ${averageScore.toFixed(1)}`);
 }
 
 console.log("--------------------------------")
