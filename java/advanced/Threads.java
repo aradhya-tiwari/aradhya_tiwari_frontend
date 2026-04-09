@@ -34,6 +34,6 @@ public class Threads {
         t1.start();
         t2.start();
 
-        System.out.println("Main thread is running concurrently...");
+        System.out.println("Main thread is running...");
     }
 }
