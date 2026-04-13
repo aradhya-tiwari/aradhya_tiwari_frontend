@@ -31,15 +31,15 @@ class UserRepositoryImpl implements UserRepository {
 
     private void initializeDummyData() {
         // adding sample data
-        userStore.put(1, new UserModel(1, "Aradhya Tiwari", "aradhya@example.com", "9876543210", "Engineering"));
-        userStore.put(2, new UserModel(2, "John Doe", "john@example.com", "9765432109", "Product"));
-        userStore.put(3, new UserModel(3, "Jane Smith", "jane@example.com", "9654321098", "Marketing"));
+        userStore.put(1, new UserModel(1, "Aradhya Tiwari", "aradhya@example.com", "9876543210"));
+        userStore.put(2, new UserModel(2, "John Doe", "john@example.com", "9765432109"));
+        userStore.put(3, new UserModel(3, "Jane Smith", "jane@example.com", "9654321098"));
         idCounter = 4;
     }
 
     @Override
     public UserModel save(UserModel user) {
-        if (user.getId() <= 0) { // this will never occur since we already have dummy data
+        if (user.getId() <= 0) { //
             user.setId(idCounter++);
         }
         userStore.put(user.getId(), user);
