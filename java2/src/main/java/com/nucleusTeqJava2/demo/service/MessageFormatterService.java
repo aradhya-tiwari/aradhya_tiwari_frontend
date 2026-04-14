@@ -9,8 +9,8 @@ public class MessageFormatterService {
     private ShortMessageFormatter shortMessageFormatter;
     private LongMessageFormatter longMessageFormatter;
 
-    public MessageFormatterService(ShortMessageFormatter shortMessageFormatter, 
-                                  LongMessageFormatter longMessageFormatter) {
+    public MessageFormatterService(ShortMessageFormatter shortMessageFormatter,
+            LongMessageFormatter longMessageFormatter) {
         this.shortMessageFormatter = shortMessageFormatter;
         this.longMessageFormatter = longMessageFormatter;
     }
