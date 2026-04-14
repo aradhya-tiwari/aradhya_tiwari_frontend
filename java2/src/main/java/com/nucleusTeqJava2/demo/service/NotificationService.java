@@ -11,6 +11,7 @@ public class NotificationService {
         this.notificationComponent = notificationComponent;
     }
 
+    // type can be EMAIL, SMS, PUSH
     public String triggerNotification(String notificationType, String eventType, String entityName) {
         String message = notificationComponent.generateMessage(eventType, entityName);
         return notificationComponent.sendNotification(notificationType, message);
