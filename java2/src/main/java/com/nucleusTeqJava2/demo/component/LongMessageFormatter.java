@@ -9,6 +9,6 @@ public class LongMessageFormatter {
         if (content == null || content.isEmpty()) {
             return "No content provided";
         }
-        return "=== MESSAGE ===\n" + content + "\n=== END OF MESSAGE ===";
+        return "=== MESSAGE ===<br><br>" + content + "<br><br>=== END OF MESSAGE ===";
     }
 }

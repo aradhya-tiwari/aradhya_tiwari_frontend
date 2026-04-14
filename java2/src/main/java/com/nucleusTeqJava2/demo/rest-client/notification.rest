@@ -1,1 +1,5 @@
 POST http://localhost:8080/notifications/send?notificationType=sms&message=Hello
+
+###
+POST http://localhost:8080/notifications/trigger?notificationType=email&eventType=created&entityName=User
+
