@@ -1,4 +1,4 @@
-package com.nucleusTeqJava2.demo;
+package session2.src.main.java.com.nucleusTeqJava2.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
