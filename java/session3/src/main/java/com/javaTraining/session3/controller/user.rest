@@ -1,0 +1,20 @@
+post http://localhost:8080/users/submit
+Content-Type: application/json
+
+{
+    "name": "HALAPINO",
+    "age": 30,
+    "role": "ADMIN"
+}
+
+### 
+get http://localhost:8080/users/search
+
+###
+get http://localhost:8080/users/search?name=aman
+
+###
+delete http://localhost:8080/users/delete/1
+
+###
+delete http://localhost:8080/users/delete/1?confirm=true
