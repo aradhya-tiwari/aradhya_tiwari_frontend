@@ -31,7 +31,7 @@ public class UserService {
 
     public UserModel submitUser(UserModel user) {
         if (user.getName() == null || user.getAge() == null || user.getRole() == null) {
-            throw new IllegalArgumentException("Name, age, and role cannot be null");
+            throw new IllegalArgumentException("name, age, and role cannot be null");
         }
 
         return userRepository.save(user);
