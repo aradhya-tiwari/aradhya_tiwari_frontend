@@ -39,4 +39,14 @@ public class UserRepository {
                 .collect(Collectors.toList());
     }
 
+    public UserModel save(UserModel user) {
+        user.setId((long) (users.size() + 1));
+        users.add(user);
+        return user;
+    }
+
+    public boolean deleteById(Long id) {
+        return users.removeIf(user -> Objects.equals(user.getId(), id));
+    }
+
 }
