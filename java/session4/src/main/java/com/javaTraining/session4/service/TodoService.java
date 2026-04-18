@@ -8,6 +8,7 @@ import com.javaTraining.session4.repository.TodoRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class TodoService {
         Todo newTodo = new Todo();
         newTodo.setTitle(todoDTO.getTitle());
         newTodo.setDescription(todoDTO.getDescription());
-        newTodo.setCreatedAt(java.time.LocalDateTime.now());
+        newTodo.setCreatedAt(LocalDateTime.now());
         if (todoDTO.getStatus() != null) {
             newTodo.setStatus(todoDTO.getStatus());
         } else {
