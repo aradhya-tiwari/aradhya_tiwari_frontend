@@ -24,7 +24,7 @@ public class TodoService {
         Todo newTodo = new Todo();
         newTodo.setTitle(todoDTO.getTitle());
         newTodo.setDescription(todoDTO.getDescription());
-
+        newTodo.setCreatedAt(java.time.LocalDateTime.now());
         if (todoDTO.getStatus() != null) {
             newTodo.setStatus(todoDTO.getStatus());
         } else {
