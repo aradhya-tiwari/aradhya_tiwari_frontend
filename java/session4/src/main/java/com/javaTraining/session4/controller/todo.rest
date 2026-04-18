@@ -1,0 +1,26 @@
+post http://localhost:8080/todos 
+Content-Type: application/json
+
+{
+    "title": "Buy Groceries",
+    "description": "Nutella, Bread, Milk",
+    "status": "PENDING"
+}
+
+###
+get http://localhost:8080/todos
+
+###
+get http://localhost:8080/todos/1
+
+###
+
+put http://localhost:8080/todos/1
+Content-Type: application/json
+
+{
+    "title": "Buy Groceries",
+    "description": "Nutella, Bread, Milk",
+    "status": "COMPLETED"
+}
+
