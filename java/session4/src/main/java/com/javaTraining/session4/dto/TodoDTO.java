@@ -3,10 +3,12 @@ package com.javaTraining.session4.dto;
 import com.javaTraining.session4.entity.TodoStatus;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class TodoDTO {
 
     @NotNull(message = "Title cannot be null")
+    @Size(min = 3, message = "Title must be at least 3 characters long")
     private String title;
 
     private String description;
