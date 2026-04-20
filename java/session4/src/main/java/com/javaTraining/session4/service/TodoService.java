@@ -6,6 +6,8 @@ import com.javaTraining.session4.entity.Todo;
 import com.javaTraining.session4.entity.TodoStatus;
 import com.javaTraining.session4.repository.TodoRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,13 +17,19 @@ import java.util.List;
 @Service
 public class TodoService {
 
-    private final TodoRepository todoRepository;
+    private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
 
-    public TodoService(TodoRepository todoRepository) {
+    private final TodoRepository todoRepository;
+    private final NotificationServiceClient notificationServiceClient;
+
+    public TodoService(TodoRepository todoRepository, NotificationServiceClient notificationServiceClient) {
         this.todoRepository = todoRepository;
+        this.notificationServiceClient = notificationServiceClient;
     }
 
     public TodoDTO createTodo(TodoDTO todoDTO) {
+        logger.info("Todo creation started: {}", todoDTO.getTitle());
+
         Todo newTodo = new Todo();
         newTodo.setTitle(todoDTO.getTitle());
         newTodo.setDescription(todoDTO.getDescription());
@@ -33,6 +41,11 @@ public class TodoService {
         }
 
         Todo savedTodo = todoRepository.save(newTodo);
+
+        logger.info("Successfully created new Todo with Id: {}", savedTodo.getId());
+
+        // sending notification (logging)
+        notificationServiceClient.sendNotification("Notification sent for new Todo. Title: " + savedTodo.getTitle());
 
         return convertToDTO(savedTodo);
     }
