@@ -1,0 +1,16 @@
+package com.javaTraining.session4.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class NotificationServiceClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(NotificationServiceClient.class);
+
+    public void sendNotification(String message) {
+        // Simulating sending a notification
+        logger.info("Notification is sent for new Todo : {}", message);
+    }
+}
