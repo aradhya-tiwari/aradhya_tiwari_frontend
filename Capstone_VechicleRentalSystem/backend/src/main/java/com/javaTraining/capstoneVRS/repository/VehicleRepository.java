@@ -10,5 +10,5 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     Optional<Vehicle> findByVehicleName(String vehicleName);
 
-    boolean vehicleAvailable(String vehicleName, LocalDateTime fromDate, LocalDateTime toDate);
+    boolean isVehicleAvailable(String vehicleName, LocalDateTime fromDate, LocalDateTime toDate);
 }
