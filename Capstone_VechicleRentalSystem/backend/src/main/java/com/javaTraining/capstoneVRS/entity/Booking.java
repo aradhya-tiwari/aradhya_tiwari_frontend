@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -50,6 +52,11 @@ public class Booking {
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
+
+    @Column(name = "rating", nullable = false)
+    @Max(5)
+    @Min(0)
+    private Number rating;
 
     public Long getBookingId() {
         return bookingId;
