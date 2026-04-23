@@ -4,6 +4,7 @@ import com.javaTraining.capstoneVRS.dto.request.LoginRequestDTO;
 import com.javaTraining.capstoneVRS.dto.request.SignupRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.AuthResponseDTO;
 import com.javaTraining.capstoneVRS.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,15 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDTO request) {
+    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDTO request, HttpServletResponse response) {
         try {
-            AuthResponseDTO response = userService.signup(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            AuthResponseDTO authResponse = userService.signup(request);
+            setTokenCookie(response, authResponse.getToken());
+
+            // Remove token from response body (it's in the cookie)
+            authResponse.setToken(null);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("message", ex.getMessage()));
@@ -36,14 +42,24 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request, HttpServletResponse response) {
         try {
-            AuthResponseDTO response = userService.login(request);
-            return ResponseEntity.ok(response);
+            AuthResponseDTO authResponse = userService.login(request);
+            setTokenCookie(response, authResponse.getToken());
+
+            // Remove token from response body (it's in the cookie)
+            authResponse.setToken(null);
+
+            return ResponseEntity.ok(authResponse);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", ex.getMessage()));
         }
+    }
+
+    private void setTokenCookie(HttpServletResponse response, String token) {
+        response.addHeader("Set-Cookie",
+                String.format("authToken=%s; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict", token));
     }
 
 }
