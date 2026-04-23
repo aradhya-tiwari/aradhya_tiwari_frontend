@@ -4,12 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "app_user")
@@ -41,6 +44,9 @@ public class User {
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Booking> bookings;
 
     public Long getUserId() {
         return userId;
@@ -104,5 +110,13 @@ public class User {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }
