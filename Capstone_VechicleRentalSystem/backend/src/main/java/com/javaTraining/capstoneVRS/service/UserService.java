@@ -1,5 +1,7 @@
 package com.javaTraining.capstoneVRS.service;
 
+import com.javaTraining.capstoneVRS.component.JwtComponent;
+import com.javaTraining.capstoneVRS.component.PasswordEncoderComponent;
 import com.javaTraining.capstoneVRS.dto.request.LoginRequestDTO;
 import com.javaTraining.capstoneVRS.dto.request.SignupRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.AuthResponseDTO;
@@ -15,9 +17,13 @@ import java.time.OffsetDateTime;
 public class UserService {
 
     private final UserRepository userRepo;
+    private final JwtComponent jwtComponent;
+    private final PasswordEncoderComponent passwordEncoder;
 
-    public UserService(UserRepository userRepo) {
+    public UserService(UserRepository userRepo, JwtComponent jwtComponent, PasswordEncoderComponent passwordEncoder) {
         this.userRepo = userRepo;
+        this.jwtComponent = jwtComponent;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AuthResponseDTO signup(SignupRequestDTO request) {
@@ -28,7 +34,8 @@ public class UserService {
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
-        user.setPasswordHash(request.getPassword());
+        // Hash password using bcrypt
+        user.setPasswordHash(passwordEncoder.encodePassword(request.getPassword()));
         user.setRole(request.getRole() == null ? UserRole.USER : request.getRole());
         user.setIsActive(true);
 
@@ -38,9 +45,14 @@ public class UserService {
 
         User savedUser = userRepo.save(user);
 
+        // Generate JWT token with role
+        String token = jwtComponent.generateToken(savedUser.getUserId(), savedUser.getEmail(),
+                savedUser.getRole().toString());
+
         AuthResponseDTO response = new AuthResponseDTO();
         response.setMessage("Signup successful");
         response.setUser(toUserResponse(savedUser));
+        response.setToken(token);
         return response;
     }
 
@@ -48,13 +60,18 @@ public class UserService {
         User user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
-        if (!user.getPasswordHash().equals(request.getPassword())) {
+        // Verify password using bcrypt
+        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new IllegalArgumentException("Invalid email or password");
         }
+
+        // Generate JWT token with role
+        String token = jwtComponent.generateToken(user.getUserId(), user.getEmail(), user.getRole().toString());
 
         AuthResponseDTO response = new AuthResponseDTO();
         response.setMessage("Login successful");
         response.setUser(toUserResponse(user));
+        response.setToken(token);
         return response;
     }
 
