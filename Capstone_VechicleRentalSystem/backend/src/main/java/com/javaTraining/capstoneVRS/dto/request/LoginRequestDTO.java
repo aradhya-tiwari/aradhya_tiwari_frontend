@@ -27,7 +27,9 @@ public class LoginRequestDTO {
         return password;
     }
 
+    // Todo implement password hash
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
