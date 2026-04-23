@@ -1,5 +1,6 @@
 package com.javaTraining.capstoneVRS.controller;
 
+import com.javaTraining.capstoneVRS.component.TokenCookieComponent;
 import com.javaTraining.capstoneVRS.dto.request.LoginRequestDTO;
 import com.javaTraining.capstoneVRS.dto.request.SignupRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.AuthResponseDTO;
@@ -20,19 +21,18 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final TokenCookieComponent tokenCookieComponent;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenCookieComponent tokenCookieComponent) {
         this.userService = userService;
+        this.tokenCookieComponent = tokenCookieComponent;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDTO request, HttpServletResponse response) {
         try {
             AuthResponseDTO authResponse = userService.signup(request);
-            setTokenCookie(response, authResponse.getToken());
-
-            // Remove token from response body (it's in the cookie)
-            authResponse.setToken(null);
+            tokenCookieComponent.setTokenCookie(response, authResponse.getToken());
 
             return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
         } catch (IllegalArgumentException ex) {
@@ -45,10 +45,7 @@ public class UserController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request, HttpServletResponse response) {
         try {
             AuthResponseDTO authResponse = userService.login(request);
-            setTokenCookie(response, authResponse.getToken());
-
-            // Remove token from response body (it's in the cookie)
-            authResponse.setToken(null);
+            tokenCookieComponent.setTokenCookie(response, authResponse.getToken());
 
             return ResponseEntity.ok(authResponse);
         } catch (IllegalArgumentException ex) {
@@ -56,10 +53,4 @@ public class UserController {
                     .body(Map.of("message", ex.getMessage()));
         }
     }
-
-    private void setTokenCookie(HttpServletResponse response, String token) {
-        response.addHeader("Set-Cookie",
-                String.format("authToken=%s; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict", token));
-    }
-
 }
