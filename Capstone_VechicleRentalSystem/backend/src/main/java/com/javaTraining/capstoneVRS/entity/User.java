@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -24,12 +26,14 @@ public class User {
     private Long userId;
 
     @Column(name = "full_name", nullable = false, length = 120)
+    @Size(min = 4)
     private String fullName;
 
     @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
     @Column(name = "password_hash", nullable = false, length = 255)
+    @Size(min = 8)
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
