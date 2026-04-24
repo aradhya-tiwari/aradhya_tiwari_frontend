@@ -48,7 +48,6 @@ public class UserService {
         // Generate JWT token with role
         String token = jwtComponent.generateToken(savedUser.getUserId(), savedUser.getEmail(),
                 savedUser.getRole().toString());
-
         AuthResponseDTO response = new AuthResponseDTO();
         response.setMessage("Signup successful");
         response.setUser(toUserResponse(savedUser));
@@ -67,7 +66,8 @@ public class UserService {
 
         // Generate JWT token with role
         String token = jwtComponent.generateToken(user.getUserId(), user.getEmail(), user.getRole().toString());
-
+        System.out.println("------------------------------------");
+        System.out.println(token + "==========" + user);
         AuthResponseDTO response = new AuthResponseDTO();
         response.setMessage("Login successful");
         response.setUser(toUserResponse(user));
