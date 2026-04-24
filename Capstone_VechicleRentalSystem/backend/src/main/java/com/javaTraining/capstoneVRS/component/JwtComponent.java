@@ -25,6 +25,7 @@ public class JwtComponent {
 
     // Generating token with id, email and role
     public String generateToken(Long userId, String email, String role) {
+        System.out.println("-----------------JWT generateToken Called--------------------");
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
 
