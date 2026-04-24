@@ -18,6 +18,8 @@ public class VehicleRequestDTO {
     @Size(max = 50, min = 4, message = "Registration number must be at most 50 characters")
     private String registrationNumber;
 
+    private String imgUrl;
+
     private Boolean availabilityStatus = true;
 
     private String basicDetails;
@@ -38,6 +40,14 @@ public class VehicleRequestDTO {
 
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public String getImgUrl() {
+        return this.imgUrl;
+    }
+
+    public void setImgUrl(String url) {
+        this.imgUrl = url;
     }
 
     public String getRegistrationNumber() {

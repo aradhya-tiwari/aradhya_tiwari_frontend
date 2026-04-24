@@ -39,6 +39,9 @@ public class Vehicle {
     @Column(name = "basic_details")
     private String basicDetails;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
@@ -105,6 +108,14 @@ public class Vehicle {
 
     public void setIsActive(Boolean active) {
         isActive = active;
+    }
+
+    public String getImgUrl() {
+        return this.imgUrl;
+    }
+
+    public void setImgUrl(String url) {
+        this.imgUrl = url;
     }
 
     public OffsetDateTime getCreatedAt() {

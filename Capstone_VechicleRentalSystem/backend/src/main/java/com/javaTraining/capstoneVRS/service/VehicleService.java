@@ -76,6 +76,7 @@ public class VehicleService {
         vehicle.setRegistrationNumber(request.getRegistrationNumber());
         vehicle.setAvailabilityStatus(request.getAvailabilityStatus() == null ? true : request.getAvailabilityStatus());
         vehicle.setBasicDetails(request.getBasicDetails());
+        vehicle.setImgUrl(request.getImgUrl());
         vehicle.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
     }
 
@@ -88,6 +89,7 @@ public class VehicleService {
         dto.setAvailabilityStatus(vehicle.getAvailabilityStatus());
         dto.setBasicDetails(vehicle.getBasicDetails());
         dto.setIsActive(vehicle.getIsActive());
+        dto.setImgUrl(vehicle.getImgUrl());
         dto.setCreatedAt(vehicle.getCreatedAt());
         dto.setUpdatedAt(vehicle.getUpdatedAt());
         return dto;

@@ -11,6 +11,7 @@ public class VehicleResponseDTO {
     private VehicleType vehicleType;
     private String registrationNumber;
     private Boolean availabilityStatus;
+    private String imgUrl;
     private String basicDetails;
     private Boolean isActive;
     private OffsetDateTime createdAt;
@@ -62,6 +63,14 @@ public class VehicleResponseDTO {
 
     public void setBasicDetails(String basicDetails) {
         this.basicDetails = basicDetails;
+    }
+
+    public String getImgurl() {
+        return this.imgUrl;
+    }
+
+    public void setImgUrl(String url) {
+        this.imgUrl = url;
     }
 
     public Boolean getIsActive() {
