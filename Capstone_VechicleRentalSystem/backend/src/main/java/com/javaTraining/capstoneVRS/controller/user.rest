@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/users/signup
+Content-Type: application/json
+
+{
+    "fullName":"Aradhya Tiwari",
+    "password":"12345tygr4567u",
+    "role":"ADMIN",
+    "email":"aradhya@gmail.com"
+}
