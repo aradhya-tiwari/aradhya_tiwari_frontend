@@ -129,4 +129,12 @@ public class Booking {
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Number getRating() {
+        return rating;
+    }
+
+    public void setRating(Number rating) {
+        this.rating = rating;
+    }
 }
