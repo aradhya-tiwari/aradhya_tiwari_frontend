@@ -53,7 +53,7 @@ public class Booking {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    @Column(name = "rating", nullable = false)
+    @Column(name = "rating", nullable = true)
     @Max(5)
     @Min(0)
     private Number rating;
