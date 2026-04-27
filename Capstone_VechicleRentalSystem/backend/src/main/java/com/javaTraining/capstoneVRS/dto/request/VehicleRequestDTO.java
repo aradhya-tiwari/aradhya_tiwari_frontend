@@ -1,6 +1,7 @@
 package com.javaTraining.capstoneVRS.dto.request;
 
 import com.javaTraining.capstoneVRS.entity.VehicleType;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,10 @@ public class VehicleRequestDTO {
     @NotBlank(message = "Registration number is required")
     @Size(max = 50, min = 4, message = "Registration number must be at most 50 characters")
     private String registrationNumber;
+
+    @NotNull(message = "Price per day is required")
+    @Min(value = 1, message = "Price per day must be at least 1")
+    private Integer pricePerDay;
 
     private String imgUrl;
 
@@ -56,6 +61,14 @@ public class VehicleRequestDTO {
 
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
+    }
+
+    public Integer getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(Integer pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public Boolean getAvailabilityStatus() {
