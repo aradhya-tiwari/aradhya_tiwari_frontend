@@ -53,10 +53,10 @@ public class Booking {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    @Column(name = "rating", nullable = true)
+    @Column(name = "rating")
     @Max(5)
     @Min(0)
-    private Number rating;
+    private Integer rating;
 
     public Long getBookingId() {
         return bookingId;
@@ -130,11 +130,11 @@ public class Booking {
         this.updatedAt = updatedAt;
     }
 
-    public Number getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(Number rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 }
