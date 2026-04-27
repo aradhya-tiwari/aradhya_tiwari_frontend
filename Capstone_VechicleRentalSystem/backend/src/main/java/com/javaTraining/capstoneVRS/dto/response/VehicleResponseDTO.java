@@ -10,6 +10,7 @@ public class VehicleResponseDTO {
     private String vehicleName;
     private VehicleType vehicleType;
     private String registrationNumber;
+    private Integer pricePerDay;
     private Boolean availabilityStatus;
     private String imgUrl;
     private String basicDetails;
@@ -47,6 +48,14 @@ public class VehicleResponseDTO {
 
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
+    }
+
+    public Integer getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(Integer pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public Boolean getAvailabilityStatus() {
