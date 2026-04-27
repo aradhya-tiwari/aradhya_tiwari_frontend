@@ -74,6 +74,7 @@ public class VehicleService {
         vehicle.setVehicleName(request.getVehicleName());
         vehicle.setVehicleType(request.getVehicleType());
         vehicle.setRegistrationNumber(request.getRegistrationNumber());
+        vehicle.setPricePerDay(request.getPricePerDay());
         vehicle.setAvailabilityStatus(request.getAvailabilityStatus() == null ? true : request.getAvailabilityStatus());
         vehicle.setBasicDetails(request.getBasicDetails());
         vehicle.setImgUrl(request.getImgUrl());
@@ -86,6 +87,7 @@ public class VehicleService {
         dto.setVehicleName(vehicle.getVehicleName());
         dto.setVehicleType(vehicle.getVehicleType());
         dto.setRegistrationNumber(vehicle.getRegistrationNumber());
+        dto.setPricePerDay(vehicle.getPricePerDay());
         dto.setAvailabilityStatus(vehicle.getAvailabilityStatus());
         dto.setBasicDetails(vehicle.getBasicDetails());
         dto.setIsActive(vehicle.getIsActive());
