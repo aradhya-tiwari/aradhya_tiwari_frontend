@@ -51,6 +51,9 @@ public class Vehicle {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
+    @Column(name = "price_per_day")
+    private Integer pricePerDay = 0;
+
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
@@ -132,6 +135,14 @@ public class Vehicle {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(Integer pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public List<Booking> getBookings() {
