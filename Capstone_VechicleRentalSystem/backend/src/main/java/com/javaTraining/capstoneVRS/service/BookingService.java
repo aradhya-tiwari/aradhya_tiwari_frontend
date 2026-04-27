@@ -70,7 +70,6 @@ public class BookingService {
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setCreatedAt(now);
         booking.setUpdatedAt(now);
-        booking.setRating(0);
 
         Booking savedBooking = bookingRepository.save(booking);
 
