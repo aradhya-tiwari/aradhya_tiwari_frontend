@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    // check if in the vehicles entity has vehicleId (as we pass it) AND status enum
+    // Check if in the vehicles entity has vehicleId (as we pass it) AND status enum
     // BookingStatus.
     // Start date and End date should be in between the provided date and returns
     // true or false
@@ -20,4 +20,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             LocalDate startDate);
 
     List<Booking> findByUserUserIdOrderByCreatedAtDesc(Long userId);
+
+    List<Booking> findByStatusInAndEndDateBefore(Collection<BookingStatus> statuses, LocalDate endDate);
 }

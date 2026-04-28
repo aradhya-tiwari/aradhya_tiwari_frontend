@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "fullName":"Aradhya Tiwari",
-    "password":"12345tygr4567u",
+    "password":"1234567890",
     "role":"ADMIN",
     "email":"aradhya@gmail.com"
 }
