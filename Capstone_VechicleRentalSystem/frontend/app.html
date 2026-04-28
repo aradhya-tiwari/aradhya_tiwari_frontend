@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VRS App</title>
+    <title>VRS Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
@@ -16,18 +16,34 @@
         </nav>
     </header>
     <main class="p-8">
-        <h2>Welcome, <span id="userName"></span>!</h2>
+        <h2>Welcome, <span id="userName"></span> !</h2>
         <p class="mt-4"> Role: <span id="userRole"></span></p>
 
-        <section class="mt-8">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-2xl font-semibold">Available Vehicles</h3>
-                <button onclick="loadVehicles()"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Refresh</button>
-            </div>
+        <section class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <article class="border shadow-md border-gray-300 rounded-lg p-6 bg-white">
+                <h3 class="text-2xl font-semibold mb-3">Check Available Vehicles</h3>
+                <p class="text-sm text-gray-700 mb-5">Browse active vehicles, see price per day, and checkout with final
+                    amount popup.</p>
+                <a href="vehicles.html"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Vehicles
+                    Page</a>
+            </article>
 
-            <p id="vehicleStatus" class="mb-4 text-sm text-gray-600">Loading vehicles...</p>
-            <div id="vehicleList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            <article class="border shadow-md border-gray-300 rounded-lg p-6 bg-white">
+                <h3 class="text-2xl font-semibold mb-3">All My Bookings</h3>
+                <p class="text-sm text-gray-700 mb-5">See every booking you made and cancel if needed.</p>
+                <a href="bookings.html"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Bookings
+                    Page</a>
+            </article>
+
+            <article class="border hidden shadow-md border-gray-300 rounded-lg p-6 bg-red-100"
+                id="admin-dashboard-panel">
+                <h3 class="text-2xl font-semibold mb-3">Admin Dashboard</h3>
+                <p class="text-sm text-gray-700 mb-5">Checkout Admin dashboard to CRUD Vehicles</p>
+                <a href="admin.html"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Portal</a>
+            </article>
         </section>
     </main>
     <footer></footer>
@@ -36,7 +52,7 @@
     <script src="apiService.js"></script>
     <script>
         // Check authentication on page load
-        window.addEventListener('DOMContentLoaded', async () => {
+        window.addEventListener('DOMContentLoaded', () => {
             if (!AuthService.isAuthenticated()) {
                 window.location.href = '/index.html';
                 return;
@@ -51,49 +67,10 @@
 
             if (role) {
                 document.getElementById('userRole').textContent = role;
+                if (role === "ADMIN")
+                    document.getElementById("admin-dashboard-panel").classList.remove("hidden")
             }
-
-            await loadVehicles();
         });
-
-        // fetch all vehicles and render in cards
-        async function loadVehicles() {
-            const vehicleStatus = document.getElementById('vehicleStatus');
-            const vehicleList = document.getElementById('vehicleList');
-
-            vehicleStatus.textContent = 'Loading vehicles...';
-            vehicleStatus.className = 'mb-4 text-sm text-gray-600';
-            vehicleList.innerHTML = '';
-
-            try {
-                const vehicles = await ApiService.get('/vehicles');
-
-                if (!vehicles || vehicles.length === 0) {
-                    vehicleStatus.textContent = 'No vehicles found.';
-                    vehicleStatus.className = 'mb-4 text-sm text-yellow-700';
-                    return;
-                }
-
-                vehicleStatus.textContent = `Showing ${vehicles.length} vehicle(s).`;
-                vehicleStatus.className = 'mb-4 text-sm text-green-700';
-
-                vehicleList.innerHTML = vehicles.map(vehicle => `
-                    <article class="border shadow-md border-gray-300 rounded-lg p-4  bg-white ">
-                        <h4 class="text-lg font-bold text-gray-900">${vehicle.vehicleName.toUpperCase() || 'N/A'}</h4>
-                        <img src=${vehicle.imgurl} class="w-full h-60 rounded-lg shadow"/>
-                        <p class="text-sm text-gray-700 mt-1"><span class="font-semibold">Type:</span> ${vehicle.vehicleType || 'N/A'}</p>
-                        <p class="text-sm text-gray-700"><span class="font-semibold">Reg No:</span> ${vehicle.registrationNumber || 'N/A'}</p>
-                        <p class="text-sm text-gray-700"><span class="font-semibold">Available:</span> ${vehicle.availabilityStatus ? 'Yes' : 'No'}</p>
-                        <p class="text-sm text-gray-700"><span class="font-semibold">Active:</span> ${vehicle.isActive ? 'Yes' : 'No'}</p>
-                        <p class="text-sm text-gray-600 mt-2">${vehicle.basicDetails || 'No details provided.'}</p>
-                        <button class="bg-blue-400 mt-10 text-white px-4 py-2 hover:shadow rounded-sm">Book</button>
-                        </article>
-                `).join('');
-            } catch (err) {
-                vehicleStatus.textContent = 'Failed to load vehicles: ' + err.message;
-                vehicleStatus.className = 'mb-4 text-sm text-red-600';
-            }
-        }
 
         function handleLogout() {
             AuthService.logout();
