@@ -57,4 +57,19 @@ public class BookingController {
             return ResponseEntity.status(status).body(Map.of("message", ex.getMessage()));
         }
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllBookings(Authentication authentication) {
+        try {
+            if (authentication == null || authentication.getAuthorities().stream()
+                    .noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", "Forbidden"));
+            }
+
+            List<BookingResponseDTO> response = bookingService.getAllBookings();
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", ex.getMessage()));
+        }
+    }
 }

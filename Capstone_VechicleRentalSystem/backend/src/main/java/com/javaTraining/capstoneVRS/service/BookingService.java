@@ -91,6 +91,13 @@ public class BookingService {
                 .toList();
     }
 
+    public List<BookingResponseDTO> getAllBookings() {
+        return bookingRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
     public BookingResponseDTO cancelBooking(Long bookingId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
