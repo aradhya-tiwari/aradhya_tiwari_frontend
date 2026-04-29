@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRS Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="bg-blue-400 text-white p-4 flex justify-between">
+            <h1 class="text-xl font-bold">VRS - User Dashboard</h1>
+            <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
+        </nav>
+    </header>
+    <main class="p-8">
+        <h2>Welcome, <span id="userName"></span> !</h2>
+        <p class="mt-4"> Role: <span id="userRole"></span></p>
+
+        <section class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <article class="border shadow-md border-gray-300 rounded-lg p-6 bg-white">
+                <h3 class="text-2xl font-semibold mb-3">Check Available Vehicles</h3>
+                <p class="text-sm text-gray-700 mb-5">Browse active vehicles, see price per day, and checkout with final
+                    amount popup.</p>
+                <a href="vehicles.html"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Vehicles
+                    Page</a>
+            </article>
+
+            <article class="border shadow-md border-gray-300 rounded-lg p-6 bg-white">
+                <h3 class="text-2xl font-semibold mb-3">All My Bookings</h3>
+                <p class="text-sm text-gray-700 mb-5">See every booking you made and cancel if needed.</p>
+                <a href="bookings.html"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Bookings
+                    Page</a>
+            </article>
+
+            <article class="border hidden shadow-md border-gray-300 rounded-lg p-6 bg-red-100"
+                id="admin-dashboard-panel">
+                <h3 class="text-2xl font-semibold mb-3">Admin Dashboard</h3>
+                <p class="text-sm text-gray-700 mb-5">Checkout Admin dashboard to CRUD Vehicles</p>
+                <a href="admin.html"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Portal</a>
+            </article>
+        </section>
+    </main>
+    <footer></footer>
+
+    <script src="authService.js"></script>
+    <script src="apiService.js"></script>
+    <script>
+        // Check authentication on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!AuthService.isAuthenticated()) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            const user = AuthService.getCurrentUser();
+            const role = AuthService.getRole();
+
+            if (user) {
+                document.getElementById('userName').textContent = user.fullName;
+            }
+
+            if (role) {
+                document.getElementById('userRole').textContent = role;
+                if (role === "ADMIN")
+                    document.getElementById("admin-dashboard-panel").classList.remove("hidden")
+            }
+        });
+
+        function handleLogout() {
+            AuthService.logout();
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+
+</html>

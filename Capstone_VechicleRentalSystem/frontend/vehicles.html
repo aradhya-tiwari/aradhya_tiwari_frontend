@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRS - Available Vehicles</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="bg-blue-400 text-white p-4 flex justify-between">
+            <h1 class="text-xl font-bold">VRS - Available Vehicles</h1>
+            <div class="flex gap-2">
+                <a href="app.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Dashboard</a>
+                <a href="bookings.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">My Bookings</a>
+                <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="p-8">
+        <section class="mb-8 border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
+            <h2 class="text-2xl font-semibold mb-4">Checkout</h2>
+            <p id="selectedVehicleText" class="mb-3 text-sm text-gray-700">Select a vehicle from the list below.</p>
+
+            <form class="grid grid-cols-1 md:grid-cols-3 gap-3" onsubmit="createBooking(event)">
+                <input id="bookingStartDate" type="date" required class="border rounded px-3 py-2">
+                <input id="bookingEndDate" type="date" required class="border rounded px-3 py-2">
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Checkout</button>
+            </form>
+            <p id="bookingMessage" class="mt-3 text-sm"></p>
+        </section>
+
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-2xl font-semibold">Available Vehicles</h3>
+                <button onclick="loadVehicles()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Refresh</button>
+            </div>
+
+            <p id="vehicleStatus" class="mb-4 text-sm text-gray-600">Loading vehicles...</p>
+            <div id="vehicleList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </section>
+    </main>
+
+    <script src="authService.js"></script>
+    <script src="apiService.js"></script>
+    <script>
+        let selectedVehicle = null;
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (!AuthService.isAuthenticated()) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            setBookingDateMin();
+            await loadVehicles();
+        });
+
+        function setBookingDateMin() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingStartDate').setAttribute('min', today);
+            document.getElementById('bookingEndDate').setAttribute('min', today);
+        }
+
+        async function loadVehicles() {
+            const vehicleStatus = document.getElementById('vehicleStatus');
+            const vehicleList = document.getElementById('vehicleList');
+
+            vehicleStatus.textContent = 'Loading vehicles...';
+            vehicleStatus.className = 'mb-4 text-sm text-gray-600';
+            vehicleList.innerHTML = '';
+
+            try {
+                const vehicles = await ApiService.get('/vehicles');
+                const available = (vehicles || []).filter(v => v.availabilityStatus && v.isActive);
+
+                if (available.length === 0) {
+                    vehicleStatus.textContent = 'No available vehicles found.';
+                    vehicleStatus.className = 'mb-4 text-sm text-yellow-700';
+                    return;
+                }
+
+                vehicleStatus.textContent = `Showing ${available.length} available vehicle(s).`;
+                vehicleStatus.className = 'mb-4 text-sm text-green-700';
+
+                vehicleList.innerHTML = available.map(vehicle => `
+                    <article class="border shadow-md border-gray-300 rounded-lg p-4 bg-white">
+                        <h4 class="text-lg font-bold text-gray-900">${(vehicle.vehicleName || 'N/A').toUpperCase()}</h4>
+                        ${vehicle.imgUrl || vehicle.imgurl ? `<img src="${vehicle.imgUrl || vehicle.imgurl}" class="w-full h-60 rounded-lg shadow"/>` : ''}
+                        <p class="text-sm text-gray-700 mt-1"><span class="font-semibold">Type:</span> ${vehicle.vehicleType || 'N/A'}</p>
+                        <p class="text-sm text-gray-700"><span class="font-semibold">Reg No:</span> ${vehicle.registrationNumber || 'N/A'}</p>
+                        <p class="text-sm text-gray-700"><span class="font-semibold">Price / Day:</span> INR ${vehicle.pricePerDay ?? 0}</p>
+                        <p class="text-sm text-gray-600 mt-2">${vehicle.basicDetails || 'No details provided.'}</p>
+                        <button
+                            data-action="select-vehicle"
+                            data-vehicle='${JSON.stringify({
+                    vehicleId: vehicle.vehicleId,
+                    vehicleName: vehicle.vehicleName || 'Vehicle',
+                    pricePerDay: vehicle.pricePerDay ?? 0
+                }).replace(/'/g, "&#39;")}'
+                            class="bg-blue-500 hover:bg-blue-600 mt-6 text-white px-4 py-2 rounded-sm"
+                            >
+                            Select For Checkout
+                        </button>
+                    </article>
+                `).join('');
+
+                document.querySelectorAll('[data-action="select-vehicle"]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const vehicle = JSON.parse(btn.getAttribute('data-vehicle'));
+                        selectVehicleForCheckout(vehicle);
+                    });
+                });
+            } catch (err) {
+                vehicleStatus.textContent = 'Failed to load vehicles: ' + err.message;
+                vehicleStatus.className = 'mb-4 text-sm text-red-600';
+            }
+        }
+
+        function selectVehicleForCheckout(vehicle) {
+            selectedVehicle = vehicle;
+            const selectedText = document.getElementById('selectedVehicleText');
+            selectedText.textContent = `Selected: ${vehicle.vehicleName} | Price: INR ${vehicle.pricePerDay}/day`;
+            selectedText.className = 'mb-3 text-sm text-blue-700';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function daysBetweenInclusive(startDate, endDate) {
+            const start = new Date(startDate + 'T00:00:00');
+            const end = new Date(endDate + 'T00:00:00');
+            const diffMs = end - start;
+            return Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
+        }
+
+        async function createBooking(e) {
+            e.preventDefault();
+
+            const messageEl = document.getElementById('bookingMessage');
+            const startDate = document.getElementById('bookingStartDate').value;
+            const endDate = document.getElementById('bookingEndDate').value;
+
+            if (!selectedVehicle) {
+                messageEl.textContent = 'Please select a vehicle first.';
+                messageEl.className = 'mt-3 text-sm text-red-600';
+                return;
+            }
+
+            if (!startDate || !endDate) {
+                messageEl.textContent = 'Please select start and end dates.';
+                messageEl.className = 'mt-3 text-sm text-red-600';
+                return;
+            }
+
+            if (new Date(endDate) < new Date(startDate)) {
+                messageEl.textContent = 'End date cannot be before start date.';
+                messageEl.className = 'mt-3 text-sm text-red-600';
+                return;
+            }
+
+            const totalDays = daysBetweenInclusive(startDate, endDate);
+            const finalAmount = totalDays * (selectedVehicle.pricePerDay || 0);
+            const shouldProceed = window.confirm(
+                `Checkout Summary\n\nVehicle: ${selectedVehicle.vehicleName}\nDays: ${totalDays}\nRate per day: INR ${selectedVehicle.pricePerDay}\nFinal amount: INR ${finalAmount}\n\nProceed with booking?`
+            );
+
+            if (!shouldProceed) {
+                return;
+            }
+
+            try {
+                await ApiService.post('/bookings', {
+                    vehicleId: selectedVehicle.vehicleId,
+                    startDate,
+                    endDate
+                });
+
+                messageEl.textContent = `Booking created successfully. Final amount: INR ${finalAmount}`;
+                messageEl.className = 'mt-3 text-sm text-green-600';
+
+                document.getElementById('bookingStartDate').value = '';
+                document.getElementById('bookingEndDate').value = '';
+                selectedVehicle = null;
+                document.getElementById('selectedVehicleText').textContent = 'Select a vehicle from the list below.';
+                document.getElementById('selectedVehicleText').className = 'mb-3 text-sm text-gray-700';
+
+                await loadVehicles();
+            } catch (err) {
+                messageEl.textContent = 'Failed to create booking: ' + err.message;
+                messageEl.className = 'mt-3 text-sm text-red-600';
+            }
+        }
+
+        function handleLogout() {
+            AuthService.logout();
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+
+</html>

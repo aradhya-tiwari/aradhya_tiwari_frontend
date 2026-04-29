@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/vehicles
+Content-Type: application/json
+
+{
+    "vehicleName":"Sample Car",
+    "vehicleType":"CAR",
+    "registrationNumber":"1234123n",
+    "basicDetails":"sample description for sample car",
+    "isActive":true,
+    "imgUrl":"https://stimg.cardekho.com/images/carexteriorimages/630x420/Mahindra/XEV-9e/9262/1755776058045/front-left-side-47.jpg"
+}
