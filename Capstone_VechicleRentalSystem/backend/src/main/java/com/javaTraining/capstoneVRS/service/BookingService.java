@@ -44,10 +44,6 @@ public class BookingService {
             throw new IllegalArgumentException("Vehicle is inactive");
         }
 
-        if (!Boolean.TRUE.equals(vehicle.getAvailabilityStatus())) {
-            throw new IllegalArgumentException("Vehicle is not available for booking");
-        }
-
         boolean overlappingBookingExists = bookingRepository
                 .existsByVehicleVehicleIdAndStatusInAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
                         vehicle.getVehicleId(),
@@ -72,12 +68,6 @@ public class BookingService {
         booking.setUpdatedAt(now);
 
         Booking savedBooking = bookingRepository.save(booking);
-
-        // Keep availability in sync so one vehicle cannot be booked twice.
-        vehicle.setAvailabilityStatus(false);
-        vehicle.setUpdatedAt(now);
-        vehicleRepository.save(vehicle);
-
         return toResponse(savedBooking);
     }
 
@@ -93,6 +83,13 @@ public class BookingService {
 
     public List<BookingResponseDTO> getAllBookings() {
         return bookingRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public List<BookingResponseDTO> getBookingsByVehicleId(Long vehicleId) {
+        return bookingRepository.findByVehicleVehicleIdOrderByStartDateAsc(vehicleId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -116,11 +113,6 @@ public class BookingService {
         booking.setStatus(BookingStatus.CANCELLED);
         booking.setUpdatedAt(OffsetDateTime.now());
         Booking saved = bookingRepository.save(booking);
-
-        Vehicle vehicle = booking.getVehicle();
-        vehicle.setAvailabilityStatus(true);
-        vehicle.setUpdatedAt(OffsetDateTime.now());
-        vehicleRepository.save(vehicle);
 
         return toResponse(saved);
     }

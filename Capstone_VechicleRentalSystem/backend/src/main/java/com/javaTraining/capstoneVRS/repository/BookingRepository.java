@@ -22,4 +22,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByUserUserIdOrderByCreatedAtDesc(Long userId);
 
     List<Booking> findByStatusInAndEndDateBefore(Collection<BookingStatus> statuses, LocalDate endDate);
+
+    // For restricting admin to delete already booked vehicle
+    boolean existsByVehicleVehicleIdAndStatusIn(Long vehicleId, Collection<BookingStatus> statuses);
+
+    List<Booking> findByVehicleVehicleIdOrderByStartDateAsc(Long vehicleId);
 }

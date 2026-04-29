@@ -72,4 +72,15 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", ex.getMessage()));
         }
     }
+
+    @GetMapping("/vehicle/{vehicleId}")
+    public ResponseEntity<?> getBookingsByVehicle(@PathVariable Long vehicleId) {
+        try {
+            List<BookingResponseDTO> response = bookingService.getBookingsByVehicleId(vehicleId);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", ex.getMessage()));
+        }
+    }
+
 }

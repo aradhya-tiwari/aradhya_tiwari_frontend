@@ -4,6 +4,8 @@ import com.javaTraining.capstoneVRS.dto.request.VehicleRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.VehicleResponseDTO;
 import com.javaTraining.capstoneVRS.entity.Vehicle;
 import com.javaTraining.capstoneVRS.repository.VehicleRepository;
+import com.javaTraining.capstoneVRS.repository.BookingRepository;
+import com.javaTraining.capstoneVRS.entity.BookingStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -13,9 +15,11 @@ import java.util.List;
 public class VehicleService {
 
     private final VehicleRepository vehicleRepo;
+    private final BookingRepository bookingRepository;
 
-    public VehicleService(VehicleRepository vehicleRepo) {
+    public VehicleService(VehicleRepository vehicleRepo, BookingRepository bookingRepository) {
         this.vehicleRepo = vehicleRepo;
+        this.bookingRepository = bookingRepository;
     }
 
     public VehicleResponseDTO createVehicle(VehicleRequestDTO request) {
@@ -67,6 +71,14 @@ public class VehicleService {
     public void deleteVehicle(Long vehicleId) {
         Vehicle vehicle = vehicleRepo.findById(vehicleId)
                 .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
+        // Prevent deleting vehicles that have active
+        boolean hasBookings = bookingRepository.existsByVehicleVehicleIdAndStatusIn(vehicleId,
+                java.util.EnumSet.of(BookingStatus.PENDING, BookingStatus.CONFIRMED, BookingStatus.ACTIVE));
+
+        if (hasBookings) {
+            throw new IllegalArgumentException("Cannot delete vehicle that has existing bookings");
+        }
+
         vehicleRepo.delete(vehicle);
     }
 
