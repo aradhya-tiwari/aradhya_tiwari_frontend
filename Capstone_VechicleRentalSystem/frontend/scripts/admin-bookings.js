@@ -33,14 +33,14 @@ async function loadAllBookings() {
 
         statusEl.textContent = `Showing ${bookings.length} booking(s).`;
         statusEl.className = 'mb-4 text-sm text-green-700';
-
+        // Bookings components
         listEl.innerHTML = bookings.map(booking => `
             <article class="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
                 <h4 class="text-lg font-semibold">${booking.vehicleName || 'Vehicle'} (${booking.registrationNumber || 'N/A'})</h4>
-                <p class="text-sm text-gray-700 mt-1"><span class="font-semibold">User:</span> ${booking.userEmail || 'N/A'}</p>
-                <p class="text-sm text-gray-700"><span class="font-semibold">Dates:</span> ${booking.startDate} to ${booking.endDate}</p>
-                <p class="text-sm text-gray-700"><span class="font-semibold">Status:</span> ${booking.status}</p>
-                <p class="text-sm text-gray-500"><span class="font-semibold">Booked On:</span> ${booking.bookingDate || 'N/A'}</p>
+                <p class="text-sm text-gray-700 mt-1"><span class="font-semibold">User: </span> ${booking.userEmail || 'N/A'}</p>
+                <p class="text-sm text-gray-700"><span class="font-semibold">Dates: </span> ${booking.startDate} to ${booking.endDate}</p>
+                <p class="text-sm text-gray-700"><span class="font-semibold">Status: </span> ${booking.status}</p>
+                <p class="text-sm text-gray-500"><span class="font-semibold">Booked On: </span> ${booking.bookingDate || 'N/A'}</p>
             </article>
         `).join('');
     } catch (err) {
