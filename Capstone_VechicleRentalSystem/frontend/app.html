@@ -8,45 +8,75 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
+<body class="bg-slate-50 min-h-screen">
     <header>
-        <nav class="bg-blue-400 text-white p-4 flex justify-between">
-            <h1 class="text-xl font-bold">VRS - User Dashboard</h1>
-            <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
+        <nav class="bg-indigo-700 text-white p-4 shadow-lg flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight">VRS Dashboard</h1>
+            <button onclick="handleLogout()"
+                class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition duration-200 text-sm font-medium">Logout</button>
         </nav>
     </header>
-    <main class="p-8">
-        <h2>Welcome, <span id="userName"></span> !</h2>
-        <p class="mt-4"> Role: <span id="userRole"></span></p>
 
-        <section class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <article class="border shadow-md border-gray-300 rounded-lg p-6 bg-white">
-                <h3 class="text-2xl font-semibold mb-3">Check Available Vehicles</h3>
-                <p class="text-sm text-gray-700 mb-5">Browse active vehicles, see price per day, and checkout with final
-                    amount popup.</p>
-                <a href="vehicles.html"
-                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Vehicles
-                    Page</a>
+    <main class="p-8 max-w-7xl mx-auto">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-slate-900">Welcome, <span id="userName" class="text-indigo-600"></span>!
+            </h2>
+            <p class="text-slate-600 mt-2">
+                <span class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-semibold">
+                    Role: <span id="userRole"></span>
+                </span>
+            </p>
+        </div>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article
+                class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden border border-slate-100">
+                <div class="p-6 border-b border-slate-200 bg-slate-100">
+                    <h3 class="text-2xl font-bold text-slate-900">Browse Vehicles</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-slate-700 mb-5">Explore our fleet of available vehicles, compare prices, and make
+                        your booking instantly.</p>
+                    <a href="vehicles.html"
+                        class="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg">
+                        Browse Vehicles
+                    </a>
+                </div>
             </article>
 
-            <article class="border shadow-md border-gray-300 rounded-lg p-6 bg-white">
-                <h3 class="text-2xl font-semibold mb-3">All My Bookings</h3>
-                <p class="text-sm text-gray-700 mb-5">See every booking you made and cancel if needed.</p>
-                <a href="bookings.html"
-                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Bookings
-                    Page</a>
+            <article
+                class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden border border-slate-100">
+                <div class="p-6 border-b border-slate-200 bg-slate-100">
+                    <h3 class="text-2xl font-bold text-slate-900">My Bookings</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-slate-700 mb-5">View all your reservations, check status, cancel if needed, and rate
+                        your experience.</p>
+                    <a href="bookings.html"
+                        class="inline-block w-full text-center bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg">
+                        View Bookings
+                    </a>
+                </div>
             </article>
 
-            <article class="border hidden shadow-md border-gray-300 rounded-lg p-6 bg-red-100"
-                id="admin-dashboard-panel">
-                <h3 class="text-2xl font-semibold mb-3">Admin Dashboard</h3>
-                <p class="text-sm text-gray-700 mb-5">Checkout Admin dashboard to CRUD Vehicles</p>
-                <a href="admin.html"
-                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Open Portal</a>
+            <article id="admin-dashboard-panel"
+                class="hidden bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden border border-slate-100">
+                <div class="p-6 border-b border-slate-200 bg-slate-100">
+                    <h3 class="text-2xl font-bold text-slate-900">Admin Panel</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-slate-700 mb-5">Manage vehicles, bookings, and system settings from the admin
+                        dashboard.</p>
+                    <a href="admin.html"
+                        class="inline-block w-full text-center bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg">
+                        Admin Dashboard
+                    </a>
+                </div>
             </article>
         </section>
+
+
     </main>
-    <footer></footer>
 
     <script src="scripts/authService.js"></script>
     <script src="scripts/apiService.js"></script>
