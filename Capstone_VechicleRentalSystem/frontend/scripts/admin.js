@@ -33,7 +33,7 @@ async function handleVehicleSubmit(e) {
         pricePerDay: Number(document.getElementById('pricePerDay').value),
         imgUrl: document.getElementById('imgUrl').value.trim(),
         basicDetails: document.getElementById('basicDetails').value.trim(),
-        availabilityStatus: document.getElementById('availabilityStatus').checked,
+        availability_status: true,
         isActive: document.getElementById('isActive').checked
     };
 
@@ -164,7 +164,6 @@ function startEdit(vehicle) {
     document.getElementById('pricePerDay').value = vehicle.pricePerDay ?? '';
     document.getElementById('imgUrl').value = vehicle.imgUrl || vehicle.imgurl || '';
     document.getElementById('basicDetails').value = vehicle.basicDetails || '';
-    document.getElementById('availabilityStatus').checked = !!vehicle.availabilityStatus;
     document.getElementById('isActive').checked = !!vehicle.isActive;
 
     document.getElementById('formTitle').textContent = 'Update Vehicle';
@@ -181,7 +180,6 @@ function cancelEdit() {
 function resetForm() {
     editingVehicleId = null;
     document.getElementById('vehicleForm').reset();
-    document.getElementById('availabilityStatus').checked = true;
     document.getElementById('isActive').checked = true;
     document.getElementById('formTitle').textContent = 'Add Vehicle';
     document.getElementById('submitBtn').textContent = 'Add Vehicle';
