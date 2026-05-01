@@ -8,73 +8,136 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
+<body class="bg-slate-50 min-h-screen">
     <header>
-        <nav class="bg-blue-400 text-white p-4 flex justify-between">
-            <h1 class="text-xl font-bold">VRS - Available Vehicles</h1>
-            <div class="flex gap-2">
-                <a href="app.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Dashboard</a>
-                <a href="bookings.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">My Bookings</a>
-                <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
+        <nav class="bg-indigo-700 text-white p-4 shadow-lg flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight">VRS - Browse Vehicles</h1>
+            <div class="flex gap-3">
+                <a href="app.html"
+                    class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-lg transition duration-200 text-sm font-medium">Dashboard</a>
+                <a href="bookings.html"
+                    class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-lg transition duration-200 text-sm font-medium">My
+                    Bookings</a>
+                <button onclick="handleLogout()"
+                    class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition duration-200 text-sm font-medium">Logout</button>
             </div>
         </nav>
     </header>
 
-    <main class="p-8">
-
-
+    <main class="p-8 max-w-7xl mx-auto">
         <section>
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-2xl font-semibold">Available Vehicles</h3>
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h3 class="text-3xl font-bold text-slate-900">Available Vehicles</h3>
+                    <p class="text-slate-600 text-sm mt-1">Select and book your perfect ride</p>
+                </div>
                 <button onclick="loadVehicles()"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Refresh</button>
+                    class="bg-slate-600 hover:bg-slate-700 text-white px-5 py-2 rounded-lg transition duration-200 font-medium shadow-md hover:shadow-lg">
+                    Refresh
+                </button>
             </div>
 
-            <p id="vehicleStatus" class="mb-4 text-sm text-gray-600">Loading vehicles...</p>
-            <div id="vehicleList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            <!-- Filter Section -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-slate-200">
+                <h4 class="text-lg font-semibold text-slate-900 mb-4">Filter Vehicles</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Search (Name/Reg)</label>
+                        <input id="vehicleSearch" type="text" placeholder="Search vehicles..."
+                            class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Vehicle Type</label>
+                        <select id="vehicleTypeFilter"
+                            class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="all">All Types</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Min Price (Rs/day)</label>
+                        <input id="vehicleMaxPrice" type="number" placeholder="0" min="0"
+                            class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="clearVehicleFilters()"
+                            class="w-full bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md hover:shadow-lg">
+                            Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p id="vehicleStatus" class="mb-6 p-3 rounded-lg text-sm text-slate-700 bg-slate-200">Loading vehicles...
+            </p>
+            <div id="vehicleList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
     </main>
 
-    <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/50 items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-            <div class="p-4 border-b flex items-center justify-between">
+    <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div class="p-6 border-b border-slate-200 flex items-center justify-between bg-slate-100">
                 <div>
-                    <h3 id="checkoutModalTitle" class="text-xl font-semibold">Checkout</h3>
-                    <p id="checkoutVehicleSummary" class="text-sm text-gray-600 mt-1"></p>
+                    <h3 id="checkoutModalTitle" class="text-2xl font-bold text-slate-900">Checkout</h3>
+                    <p id="checkoutVehicleSummary" class="text-sm text-slate-600 mt-1"></p>
                 </div>
                 <button onclick="closeCheckoutModal()"
-                    class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">Close</button>
+                    class="bg-slate-200 hover:bg-slate-300 text-slate-900 px-3 py-1 rounded-lg transition duration-200">Close</button>
             </div>
 
-            <div class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[80vh] overflow-hidden">
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[70vh] overflow-hidden">
                 <section>
                     <div class="mb-4 flex items-center justify-between">
-                        <h4 class="text-lg font-semibold">Vehicle Bookings</h4>
-                        <p class="text-sm text-gray-600">Count: <span id="checkoutBookingCount">0</span></p>
+                        <h4 class="text-lg font-semibold text-slate-900">Existing Bookings</h4>
+                        <p class="text-sm text-slate-600">Count: <span id="checkoutBookingCount"
+                                class="font-semibold">0</span></p>
                     </div>
-                    <p id="checkoutBookingStatus" class="mb-3 text-sm text-gray-600">Loading bookings...</p>
-                    <div id="checkoutBookingList" class="space-y-3 max-h-[55vh] overflow-y-auto pr-2"></div>
+                    <p id="checkoutBookingStatus" class="mb-3 text-sm text-slate-600">Loading bookings...</p>
+                    <div id="checkoutBookingList" class="space-y-3 max-h-[50vh] overflow-y-auto pr-2"></div>
                 </section>
 
-                <section class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                    <h4 class="text-lg font-semibold mb-4">Select Dates</h4>
+                <section class="bg-slate-100 rounded-xl p-6 border border-slate-200">
+                    <h4 class="text-lg font-semibold text-slate-900 mb-4">Select Dates</h4>
                     <div class="grid grid-cols-1 gap-3">
-                        <input id="checkoutStartDate" type="date" class="border rounded px-3 py-2 bg-white">
-                        <input id="checkoutEndDate" type="date" class="border rounded px-3 py-2 bg-white">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Start Date</label>
+                            <input id="checkoutStartDate" type="date"
+                                class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">End Date</label>
+                            <input id="checkoutEndDate" type="date"
+                                class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
                     </div>
-                    <div class="mt-4 border rounded-lg p-3 bg-white">
-                        <p class="text-sm text-gray-700">Days: <span id="checkoutDays">0</span></p>
-                        <p class="text-sm text-gray-700">Price / Day: INR <span id="checkoutRate">0</span></p>
-                        <p class="text-base font-semibold text-gray-900 mt-1">Final Amount: INR <span
-                                id="checkoutAmount">0</span></p>
+
+                    <div class="mt-6 bg-white rounded-lg p-4 border border-slate-200">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-slate-700">Days:</span>
+                            <span id="checkoutDays" class="text-lg font-semibold text-slate-900">0</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-slate-700">Price/Day:</span>
+                            <span id="checkoutRate" class="text-lg font-semibold text-indigo-600">₹0</span>
+                        </div>
+                        <div class="border-t border-slate-200 pt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base font-semibold text-slate-900">Total:</span>
+                                <span id="checkoutAmount" class="text-2xl font-bold text-green-600">₹0</span>
+                            </div>
+                        </div>
                     </div>
-                    <p id="checkoutMessage" class="mt-3 text-sm"></p>
-                    <div class="mt-4 flex flex-wrap gap-3">
+
+                    <p id="checkoutMessage" class="mt-4 text-sm"></p>
+
+                    <div class="mt-6 flex gap-3">
                         <button onclick="createBooking()"
-                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Vehicle</button>
+                            class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md hover:shadow-lg">
+                            Book Vehicle
+                        </button>
                         <button onclick="bookAnotherVehicle()"
-                            class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300">Book Another
-                            Vehicle</button>
+                            class="flex-1 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition duration-200 font-medium">
+                            + Book Another
+                        </button>
                     </div>
                 </section>
             </div>
