@@ -88,7 +88,6 @@ async function loadVehicles() {
                             <p><span class="font-semibold">Type:</span> ${vehicle.vehicleType}</p>
                             <p><span class="font-semibold">Reg No:</span> ${vehicle.registrationNumber}</p>
                             <p><span class="font-semibold text-purple-600">₹${vehicle.pricePerDay ?? 0}/day</span></p>
-                            <p><span class="font-semibold">Available:</span> <span class="px-2 py-0.5 rounded text-xs font-semibold ${vehicle.availabilityStatus ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${vehicle.availabilityStatus ? 'Yes' : 'No'}</span></p>
                             <p><span class="font-semibold">Active:</span> <span class="px-2 py-0.5 rounded text-xs font-semibold ${vehicle.isActive ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'}">${vehicle.isActive ? 'Yes' : 'No'}</span></p>
                         </div>
                         
@@ -131,7 +130,7 @@ async function loadVehicles() {
         listMessage.className = 'mb-6 p-3 rounded-lg text-sm text-red-700 bg-red-100';
     }
 }
-// /api/vehilces/:id DELETE
+// DELETE /api/vehilces/:id 
 async function deleteVehicle(vehicleId) {
     const shouldDelete = window.confirm('Delete this vehicle? This action cannot be undone.');
     if (!shouldDelete) {
