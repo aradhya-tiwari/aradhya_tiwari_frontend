@@ -39,7 +39,14 @@ async function loadAllBookings() {
                 <h4 class="text-lg font-semibold">${booking.vehicleName || 'Vehicle'} (${booking.registrationNumber || 'N/A'})</h4>
                 <p class="text-sm text-gray-700 mt-1"><span class="font-semibold">User: </span> ${booking.userEmail || 'N/A'}</p>
                 <p class="text-sm text-gray-700"><span class="font-semibold">Dates: </span> ${booking.startDate} to ${booking.endDate}</p>
-                <p class="text-sm text-gray-700"><span class="font-semibold">Status: </span> ${booking.status}</p>
+                <p class="text-sm text-gray-700"><span class="font-semibold">Status: </span> 
+                    <span class="px-2 py-1 rounded text-xs font-semibold ${booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
+                booking.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                    booking.status === 'ACTIVE' ? 'bg-blue-100 text-blue-800' :
+                        booking.status === 'COMPLETED' ? 'bg-purple-100 text-purple-800' :
+                            'bg-gray-100 text-gray-800'
+            }">${booking.status}</span>
+                </p>
                 <p class="text-sm text-gray-500"><span class="font-semibold">Booked On: </span> ${booking.bookingDate || 'N/A'}</p>
             </article>
         `).join('');

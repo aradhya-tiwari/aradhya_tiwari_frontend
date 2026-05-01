@@ -11,6 +11,7 @@ import com.javaTraining.capstoneVRS.repository.UserRepository;
 import com.javaTraining.capstoneVRS.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.EnumSet;
 import java.util.List;
@@ -77,6 +78,7 @@ public class BookingService {
 
         return bookingRepository.findByUserUserIdOrderByCreatedAtDesc(user.getUserId())
                 .stream()
+                .peek(this::updateBookingStatusIfNeeded)
                 .map(this::toResponse)
                 .toList();
     }
@@ -84,6 +86,7 @@ public class BookingService {
     public List<BookingResponseDTO> getAllBookings() {
         return bookingRepository.findAll()
                 .stream()
+                .peek(this::updateBookingStatusIfNeeded)
                 .map(this::toResponse)
                 .toList();
     }
@@ -91,6 +94,7 @@ public class BookingService {
     public List<BookingResponseDTO> getBookingsByVehicleId(Long vehicleId) {
         return bookingRepository.findByVehicleVehicleIdOrderByStartDateAsc(vehicleId)
                 .stream()
+                .peek(this::updateBookingStatusIfNeeded)
                 .map(this::toResponse)
                 .toList();
     }
@@ -108,6 +112,10 @@ public class BookingService {
 
         if (booking.getStatus() == BookingStatus.CANCELLED) {
             throw new IllegalArgumentException("Booking is already cancelled");
+        }
+
+        if (booking.getStatus() == BookingStatus.COMPLETED) {
+            throw new IllegalArgumentException("Cannot cancel a completed booking");
         }
 
         booking.setStatus(BookingStatus.CANCELLED);
@@ -132,5 +140,28 @@ public class BookingService {
         dto.setCreatedAt(booking.getCreatedAt());
         dto.setUpdatedAt(booking.getUpdatedAt());
         return dto;
+    }
+
+    private void updateBookingStatusIfNeeded(Booking booking) {
+        if (booking.getStatus() == BookingStatus.CANCELLED || booking.getStatus() == BookingStatus.COMPLETED) {
+            return;
+        }
+
+        LocalDate today = LocalDate.now();
+        BookingStatus expectedStatus;
+
+        if (today.isAfter(booking.getEndDate())) {
+            expectedStatus = BookingStatus.COMPLETED;
+        } else if (today.isBefore(booking.getStartDate())) {
+            expectedStatus = BookingStatus.CONFIRMED;
+        } else {
+            expectedStatus = BookingStatus.ACTIVE;
+        }
+
+        if (booking.getStatus() != expectedStatus) {
+            booking.setStatus(expectedStatus);
+            booking.setUpdatedAt(OffsetDateTime.now());
+            bookingRepository.save(booking);
+        }
     }
 }

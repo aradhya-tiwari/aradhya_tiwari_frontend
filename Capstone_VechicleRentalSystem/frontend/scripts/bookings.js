@@ -73,7 +73,8 @@ async function loadMyBookings() {
                         <span class="px-3 py-1 rounded-full text-xs font-semibold ${booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
                 booking.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
                     booking.status === 'ACTIVE' ? 'bg-blue-100 text-blue-800' :
-                        'bg-slate-100 text-slate-800'
+                        booking.status === 'COMPLETED' ? 'bg-purple-100 text-purple-800' :
+                            'bg-slate-100 text-slate-800'
             }">${booking.status}</span>
                     </div>
 
@@ -88,12 +89,12 @@ async function loadMyBookings() {
                 </div>
 
                 <div class="px-4 pb-4 flex gap-2">
-                    ${booking.status !== 'CANCELLED' ? `
+                    ${booking.status !== 'CANCELLED' && booking.status !== 'COMPLETED' ? `
                         <button class="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition duration-200 text-sm font-medium"
                             onclick="cancelBooking(${booking.bookingId})">
                             Cancel
                         </button>
-                    ` : '<p class="flex-1 text-center text-xs text-slate-500 py-2">Booking cancelled</p>'}
+                    ` : booking.status === 'CANCELLED' ? '<p class="flex-1 text-center text-xs text-slate-500 py-2">Booking cancelled</p>' : '<p class="flex-1 text-center text-xs text-slate-600 py-2">Booking completed</p>'}
                     
                     <button class="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-lg transition duration-200 text-sm font-medium"
                         onclick="editRating(${booking.bookingId}, ${booking.rating || 0})">
