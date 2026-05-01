@@ -83,4 +83,19 @@ public class BookingController {
         }
     }
 
+    @PutMapping("/{bookingId}/rating")
+    public ResponseEntity<?> updateRating(@PathVariable Long bookingId, @RequestBody Map<String, Integer> request,
+            Authentication authentication) {
+        try {
+            String userEmail = authentication.getName();
+            Integer rating = request.get("rating");
+            BookingResponseDTO response = bookingService.updateRating(bookingId, rating, userEmail);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            HttpStatus status = "Booking not found".equals(ex.getMessage()) ? HttpStatus.NOT_FOUND
+                    : HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(status).body(Map.of("message", ex.getMessage()));
+        }
+    }
+
 }

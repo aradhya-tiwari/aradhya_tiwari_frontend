@@ -11,10 +11,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 function renderStars(rating) {
-    if (!rating || rating < 0 || rating > 5) {
+    if (rating === null || rating === undefined || rating < 0 || rating > 5) {
         return '<span class="text-slate-400 text-sm">No rating</span>';
     }
-    return `<span class="text-slate-700 font-semibold">Rating: ${rating}/5</span>`;
+    return `<span class="text-slate-700 font-semibold">Rating: ${rating}/5 </span>`;
 }
 // For calculating total days for quotation
 function daysBetweenInclusive(startDate, endDate) {
@@ -121,7 +121,7 @@ async function cancelBooking(bookingId) {
         statusEl.className = 'mb-6 p-3 rounded-lg text-sm text-red-700 bg-red-100';
     }
 }
-// Currently not implemented, TODO
+// Update booking rating
 async function editRating(bookingId, currentRating) {
     const rating = prompt(`Enter rating (0-5 stars). Current: ${currentRating || 'None'}:`, currentRating || '');
     if (rating === null) return;
@@ -133,8 +133,8 @@ async function editRating(bookingId, currentRating) {
     }
 
     try {
-        alert(`Rating updated to ${ratingNum}. (Requires backend endpoint)`);
-        // await ApiService.put(``);   TODO
+        await ApiService.put(`/bookings/${bookingId}/rating`, { rating: ratingNum });
+        alert(`Rating updated to ${ratingNum} successfully!`);
         await loadMyBookings();
     } catch (err) {
         alert('Failed to update rating: ' + err.message);

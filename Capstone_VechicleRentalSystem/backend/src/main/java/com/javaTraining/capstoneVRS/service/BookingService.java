@@ -125,6 +125,32 @@ public class BookingService {
         return toResponse(saved);
     }
 
+    public BookingResponseDTO updateRating(Long bookingId, Integer rating, String userEmail) {
+        if (rating == null || rating < 0 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+
+        if (!booking.getUser().getUserId().equals(user.getUserId())) {
+            throw new IllegalArgumentException("You can rate only your own bookings");
+        }
+
+        if (booking.getStatus() != BookingStatus.COMPLETED && booking.getStatus() != BookingStatus.ACTIVE) {
+            throw new IllegalArgumentException("You can only rate completed or active bookings");
+        }
+
+        booking.setRating(rating);
+        booking.setUpdatedAt(OffsetDateTime.now());
+        Booking saved = bookingRepository.save(booking);
+
+        return toResponse(saved);
+    }
+
     private BookingResponseDTO toResponse(Booking booking) {
         BookingResponseDTO dto = new BookingResponseDTO();
         dto.setBookingId(booking.getBookingId());
@@ -139,6 +165,7 @@ public class BookingService {
         dto.setBookingDate(booking.getBookingDate());
         dto.setCreatedAt(booking.getCreatedAt());
         dto.setUpdatedAt(booking.getUpdatedAt());
+        dto.setRating(booking.getRating());
         return dto;
     }
 

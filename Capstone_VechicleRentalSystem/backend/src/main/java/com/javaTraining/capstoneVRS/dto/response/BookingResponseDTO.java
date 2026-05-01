@@ -19,6 +19,7 @@ public class BookingResponseDTO {
     private OffsetDateTime bookingDate;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private Integer rating;
 
     public Long getBookingId() {
         return bookingId;
@@ -114,5 +115,13 @@ public class BookingResponseDTO {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }
