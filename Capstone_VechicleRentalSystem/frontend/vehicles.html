@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VRS - Available Vehicles</title>
+    <title>Capstone VRS - Available Vehicles</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="bg-slate-50 min-h-screen">
     <header>
         <nav class="bg-indigo-700 text-white p-4 shadow-lg flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight">VRS - Browse Vehicles</h1>
+            <h1 class="text-2xl font-bold tracking-tight"> Capstone VRS - Browse Vehicles</h1>
             <div class="flex gap-3">
                 <a href="app.html"
                     class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-lg transition duration-200 text-sm font-medium">Dashboard</a>
@@ -54,17 +54,13 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Min Price (Rs/day)</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-2"> Price (Rs/day)</label>
                         <input id="vehicleMaxPrice" type="number" placeholder="0" min="0"
                             class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                     </div>
-                    <div class="flex items-end">
-                        <button onclick="clearVehicleFilters()"
-                            class="w-full bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md hover:shadow-lg">
-                            Clear Filters
-                        </button>
-                    </div>
+                    </button>
                 </div>
+            </div>
             </div>
 
             <p id="vehicleStatus" class="mb-6 p-3 rounded-lg text-sm text-slate-700 bg-slate-200">Loading vehicles...
