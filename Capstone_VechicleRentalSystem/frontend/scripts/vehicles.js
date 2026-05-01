@@ -78,7 +78,7 @@ function getFilteredVehicles() {
     return allActiveVehicles.filter(v => {
         const matchesSearch = !searchValue || v.vehicleName.toLowerCase().includes(searchValue) || v.registrationNumber.toLowerCase().includes(searchValue);
         const matchesType = typeValue === 'all' || v.vehicleType === typeValue;
-        const matchesPrice = maxPriceValue === 0 || v.pricePerDay >= maxPriceValue;
+        const matchesPrice = maxPriceValue === 0 || v.pricePerDay <= maxPriceValue;
         return matchesSearch && matchesType && matchesPrice;
     });
 }
