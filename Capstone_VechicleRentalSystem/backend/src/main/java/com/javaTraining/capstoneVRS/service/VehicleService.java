@@ -6,6 +6,8 @@ import com.javaTraining.capstoneVRS.entity.Vehicle;
 import com.javaTraining.capstoneVRS.repository.VehicleRepository;
 import com.javaTraining.capstoneVRS.repository.BookingRepository;
 import com.javaTraining.capstoneVRS.entity.BookingStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class VehicleService {
+
+    private static final Logger log = LoggerFactory.getLogger(VehicleService.class);
 
     private final VehicleRepository vehicleRepo;
     private final BookingRepository bookingRepository;
@@ -25,6 +29,8 @@ public class VehicleService {
     public VehicleResponseDTO createVehicle(VehicleRequestDTO request) {
         vehicleRepo.findByRegistrationNumber(request.getRegistrationNumber())
                 .ifPresent(v -> {
+                    log.warn("Create vehicle rejected because registration number exists registrationNumber={}",
+                            request.getRegistrationNumber());
                     throw new IllegalArgumentException("Registration number already exists");
                 });
 
@@ -36,10 +42,14 @@ public class VehicleService {
         vehicle.setUpdatedAt(now);
 
         Vehicle saved = vehicleRepo.save(vehicle);
+        log.info("Vehicle persisted vehicleId={} registrationNumber={}",
+                saved.getVehicleId(),
+                saved.getRegistrationNumber());
         return toVehicleResponse(saved);
     }
 
     public List<VehicleResponseDTO> getAllVehicles() {
+        log.debug("Loading all vehicles");
         return vehicleRepo.findAll().stream()
                 .map(this::toVehicleResponse)
                 .toList();
@@ -48,6 +58,7 @@ public class VehicleService {
     public VehicleResponseDTO getVehicleById(Long vehicleId) {
         Vehicle vehicle = vehicleRepo.findById(vehicleId)
                 .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
+        log.debug("Vehicle loaded vehicleId={} registrationNumber={}", vehicleId, vehicle.getRegistrationNumber());
         return toVehicleResponse(vehicle);
     }
 
@@ -58,6 +69,9 @@ public class VehicleService {
         vehicleRepo.findByRegistrationNumber(request.getRegistrationNumber())
                 .filter(existing -> !existing.getVehicleId().equals(vehicleId))
                 .ifPresent(v -> {
+                    log.warn("Update vehicle rejected because registration number exists vehicleId={} registrationNumber={}",
+                            vehicleId,
+                            request.getRegistrationNumber());
                     throw new IllegalArgumentException("Registration number already exists");
                 });
 
@@ -65,6 +79,9 @@ public class VehicleService {
         vehicle.setUpdatedAt(OffsetDateTime.now());
 
         Vehicle updated = vehicleRepo.save(vehicle);
+        log.info("Vehicle updated vehicleId={} registrationNumber={}",
+                updated.getVehicleId(),
+                updated.getRegistrationNumber());
         return toVehicleResponse(updated);
     }
 
@@ -76,10 +93,14 @@ public class VehicleService {
                 java.util.EnumSet.of(BookingStatus.PENDING, BookingStatus.CONFIRMED, BookingStatus.ACTIVE));
 
         if (hasBookings) {
+            log.warn("Delete vehicle rejected because bookings exist vehicleId={}", vehicleId);
             throw new IllegalArgumentException("Cannot delete vehicle that has existing bookings");
         }
 
         vehicleRepo.delete(vehicle);
+        log.info("Vehicle removed vehicleId={} registrationNumber={}",
+                vehicleId,
+                vehicle.getRegistrationNumber());
     }
 
     private void applyRequestToVehicle(Vehicle vehicle, VehicleRequestDTO request) {
