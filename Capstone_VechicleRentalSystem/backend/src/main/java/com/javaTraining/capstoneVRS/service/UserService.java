@@ -9,12 +9,16 @@ import com.javaTraining.capstoneVRS.dto.response.UserResponseDTO;
 import com.javaTraining.capstoneVRS.entity.User;
 import com.javaTraining.capstoneVRS.entity.UserRole;
 import com.javaTraining.capstoneVRS.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 
 @Service
 public class UserService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepo;
     private final JwtComponent jwtComponent;
@@ -28,6 +32,7 @@ public class UserService {
 
     public AuthResponseDTO signup(SignupRequestDTO request) {
         if (userRepo.existsByEmail(request.getEmail())) {
+            log.warn("Signup rejected because email already exists email={}", request.getEmail());
             throw new IllegalArgumentException("Email is already registered");
         }
 
@@ -44,6 +49,10 @@ public class UserService {
         user.setUpdatedAt(now);
 
         User savedUser = userRepo.save(user);
+        log.info("User registered userId={} email={} role={}",
+                savedUser.getUserId(),
+                savedUser.getEmail(),
+                savedUser.getRole());
 
         // Generate JWT token with role
         String token = jwtComponent.generateToken(savedUser.getUserId(), savedUser.getEmail(),
@@ -61,13 +70,17 @@ public class UserService {
 
         // Verify password using bcrypt
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+            log.warn("Login rejected because password did not match email={}", request.getEmail());
             throw new IllegalArgumentException("Invalid email or password");
         }
 
         // Generate JWT token with role
         String token = jwtComponent.generateToken(user.getUserId(), user.getEmail(), user.getRole().toString());
-        System.out.println("------------------------------------");
-        System.out.println(token + "==========" + user);
+        log.info("User authenticated userId={} email={} role={}",
+                user.getUserId(),
+                user.getEmail(),
+                user.getRole());
+        log.debug("JWT generated for userId={}", user.getUserId());
         AuthResponseDTO response = new AuthResponseDTO();
         response.setMessage("Login successful");
         response.setUser(toUserResponse(user));
