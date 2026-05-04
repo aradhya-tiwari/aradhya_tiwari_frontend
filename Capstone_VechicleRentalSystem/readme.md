@@ -421,4 +421,4 @@ Supporting project resources:
 
 - ER diagram: `resources/er-diagram.excalidraw`, to run it I use excalidraw extension
 - requirements summary: `resources/srs.md`
-- SQL draft: `resources/schema.sql`
+- SQL draft: `resources/schema.sql` 
