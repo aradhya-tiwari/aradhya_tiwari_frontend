@@ -87,6 +87,25 @@ class VehicleServiceTest {
         verify(vehicleRepository, never()).save(any());
     }
 
+    // Test vehicle insertion with availability and isActive to null to check
+    // defaults
+    @Test
+    void createVehicle_defaultsNullFlagsToTrue() {
+        VehicleRequestDTO request = buildRequest("Car One", "MP09-100", 500);
+        // This is useless column since availability is checked using booking now.
+        request.setAvailabilityStatus(null);
+        request.setIsActive(null);
+
+        when(vehicleRepository.findByRegistrationNumber("MP09-100")).thenReturn(Optional.empty());
+        when(vehicleRepository.save(any(Vehicle.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        VehicleResponseDTO response = vehicleService.createVehicle(request);
+
+        assertTrue(response.getAvailabilityStatus());
+        assertTrue(response.getIsActive());
+    }
+
+    // Test fetching all vehicles mapping entries to assert response
     @Test
     void getAllVehicles_mapsAllEntries() {
         Vehicle first = buildVehicle(1L, "Car One", "REG-100", 500);
@@ -97,7 +116,7 @@ class VehicleServiceTest {
 
         assertEquals(2, response.size());
         assertEquals("Car One", response.get(0).getVehicleName());
-        assertEquals("Bike One", response.get(1).getVehicleName());
+        assertEquals("Bike one", response.get(1).getVehicleName());
     }
 
     // Vehicle exists check
@@ -125,6 +144,23 @@ class VehicleServiceTest {
 
         assertEquals("Updated Car", response.getVehicleName());
         assertEquals("REG-101", response.getRegistrationNumber());
+        assertEquals(650, response.getPricePerDay());
+    }
+
+    // Test unique constraint on registration number upon updating same vehicle
+    @Test
+    void updateVehicle_allowsSameRegistrationOnSameVehicle() {
+        Vehicle existing = buildVehicle(1L, "Car One", "mp-100", 500);
+        VehicleRequestDTO request = buildRequest("Updated Car", "mp-100", 650);
+
+        when(vehicleRepository.findById(1L)).thenReturn(Optional.of(existing));
+        when(vehicleRepository.findByRegistrationNumber("mp-100")).thenReturn(Optional.of(existing));
+        when(vehicleRepository.save(any(Vehicle.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        VehicleResponseDTO response = vehicleService.updateVehicle(1L, request);
+
+        assertEquals("Updated Car", response.getVehicleName());
+        assertEquals("mp-100", response.getRegistrationNumber());
         assertEquals(650, response.getPricePerDay());
     }
 
