@@ -42,6 +42,7 @@ class UserServiceTest {
         userService = new UserService(userRepository, jwtComponent, passwordEncoder);
     }
 
+    // Test user signup flow
     @Test
     void signup_createsUserAndReturnsToken() {
         SignupRequestDTO request = buildSignupRequest();
@@ -73,6 +74,24 @@ class UserServiceTest {
                 () -> userService.signup(request));
 
         assertEquals("Email is already registered", error.getMessage());
+    }
+
+    // Signup request test when role is missing.
+    @Test
+    void signup_defaultsRoleToUserWhenRoleIsMissing() {
+        SignupRequestDTO request = buildSignupRequest();
+        request.setRole(null);
+        User savedUser = buildUser(1L, request.getEmail());
+        savedUser.setRole(UserRole.USER);
+
+        when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
+        when(passwordEncoder.encodePassword("secret1")).thenReturn("hashed-secret");
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
+        when(jwtComponent.generateToken(1L, request.getEmail(), UserRole.USER.toString())).thenReturn("token-123");
+
+        AuthResponseDTO response = userService.signup(request);
+
+        assertEquals(UserRole.USER, response.getUser().getRole());
     }
 
     // Return user upon login
