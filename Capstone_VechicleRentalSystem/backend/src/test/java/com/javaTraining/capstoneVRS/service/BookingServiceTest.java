@@ -265,6 +265,76 @@ class BookingServiceTest {
         assertEquals("Booking not found", error.getMessage());
     }
 
+    // Test to add or update user rating and check for validations like
+    @Test
+    void updateRating_validatesAndUpdatesRatingPaths() {
+        User user = buildUser(10L, "user@gmail.com");
+        Booking rateableBooking = buildBooking(1L, user, buildVehicle(1L, "Car One", "REG-100"));
+        rateableBooking.setStatus(BookingStatus.COMPLETED);
+
+        when(userRepository.findByEmail("user@gmail.com")).thenReturn(Optional.of(user));
+        when(bookingRepository.findById(1L)).thenReturn(Optional.of(rateableBooking));
+        when(bookingRepository.save(any(Booking.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        BookingResponseDTO response = bookingService.updateRating(1L, 5, "user@gmail.com");
+
+        assertEquals(5, response.getRating());
+        verify(bookingRepository).save(rateableBooking);
+    }
+
+    // Test the rejection of invalid rating, if it is not in range from 0 to 5
+    @Test
+    void updateRating_rejectsInvalidRating() {
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.updateRating(1L, 6, "user@gmail.com"));
+
+        assertEquals("Rating must be between 0 and 5", error.getMessage());
+        verify(userRepository, never()).findByEmail(any());
+    }
+
+    // Test updateBookingStatusIfNeeded() method on getAllBookings
+    @Test
+    void getAllBookings_updatesStatusesAndReturnsAllBookings() {
+        Booking completedByDate = buildBooking(1L, buildUser(10L, "user@gmail.com"),
+                buildVehicle(1L, "Car One", "REG-100"));
+        completedByDate.setStatus(BookingStatus.PENDING);
+        completedByDate.setStartDate(LocalDate.now().minusDays(3));
+        completedByDate.setEndDate(LocalDate.now().minusDays(1));
+
+        Booking activeBooking = buildBooking(2L, buildUser(10L, "user@gmail.com"),
+                buildVehicle(2L, "Car Two", "REG-200"));
+        activeBooking.setStatus(BookingStatus.PENDING);
+        activeBooking.setStartDate(LocalDate.now().minusDays(1));
+        activeBooking.setEndDate(LocalDate.now().plusDays(1));
+
+        Booking futureBooking = buildBooking(3L, buildUser(10L, "user@gmail.com"),
+                buildVehicle(3L, "Car Three", "REG-300"));
+        futureBooking.setStatus(BookingStatus.PENDING);
+        futureBooking.setStartDate(LocalDate.now().plusDays(1));
+        futureBooking.setEndDate(LocalDate.now().plusDays(2));
+
+        when(bookingRepository.findAll()).thenReturn(List.of(completedByDate, activeBooking, futureBooking));
+        when(bookingRepository.save(any(Booking.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        List<BookingResponseDTO> response = bookingService.getAllBookings();
+
+        assertEquals(3, response.size());
+        verify(bookingRepository).save(completedByDate);
+        verify(bookingRepository).save(activeBooking);
+        verify(bookingRepository).save(futureBooking);
+    }
+
+    // Test when user is misssing and requested my bookings
+    @Test
+    void getMyBookings_missingUserThrows() {
+        when(userRepository.findByEmail("missing@gmail.com")).thenReturn(Optional.empty());
+
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.getMyBookings("missing@gmail.com"));
+
+        assertEquals("User not found", error.getMessage());
+    }
+
     // Booking request DTO
     private BookingRequestDTO buildRequest(Long vehicleId, LocalDate startDate, LocalDate endDate) {
         BookingRequestDTO request = new BookingRequestDTO();
