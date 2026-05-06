@@ -1,0 +1,497 @@
+[
+  {
+    "v": 12,
+    "name": "Capstone Vehicle Rental System",
+    "folders": [
+      {
+        "v": 12,
+        "name": "Auth",
+        "folders": [],
+        "requests": [
+          {
+            "v": "17",
+            "name": "Signup",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/api/users/signup",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"fullName\": \"Sample user\",\n  \"email\": \"sample@gmail.com\",\n  \"password\": \"1234567890\",\n  \"role\": \"USER\"\n}"
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Create a new user account. The response returns a JWT token and sets the authToken cookie."
+          },
+          {
+            "v": "17",
+            "name": "Login",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/api/users/login",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"email\": \"aradhya@gmail.com\",\n  \"password\": \"1234567890\"\n}"
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Authenticate an existing user and store the returned JWT token for later requests."
+          }
+        ],
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "headers": [],
+        "variables": [],
+        "description": null,
+        "preRequestScript": "",
+        "testScript": ""
+      },
+      {
+        "v": 12,
+        "name": "Vehicles",
+        "folders": [],
+        "requests": [
+          {
+            "v": "17",
+            "name": "Create Vehicle",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/api/vehicles",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true,
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"vehicleName\": \"Honda City\",\n  \"vehicleType\": \"CAR\",\n  \"registrationNumber\": \"MP09-100\",\n  \"pricePerDay\": 500,\n  \"imgUrl\": \"https://example.com/vehicle.png\",\n  \"availabilityStatus\": true,\n  \"basicDetails\": \"Comfortable sedan\",\n  \"isActive\": true\n}"
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Create a vehicle. Requires an ADMIN token."
+          },
+          {
+            "v": "17",
+            "name": "Get All Vehicles",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/api/vehicles",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIzIiwiZW1haWwiOiJhcmFkaHlhQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3Nzk3MzA4MywiZXhwIjoxNzc4MDU5NDgzfQ.656FN2GVvLuEivUtQQ3VW4Q-H7WFP1x5fa61p9uD3rakxSBgemks6r9j_8lfKqWP",
+              "secret": "",
+              "algorithm": "HS256",
+              "payload": "{}",
+              "addTo": "HEADERS",
+              "isSecretBase64Encoded": false,
+              "headerPrefix": "Bearer",
+              "paramName": "token",
+              "jwtHeaders": "{}"
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [
+              {
+                "key": "authToken",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIzIiwiZW1haWwiOiJhcmFkaHlhQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3Nzk3MzA4MywiZXhwIjoxNzc4MDU5NDgzfQ.656FN2GVvLuEivUtQQ3VW4Q-H7WFP1x5fa61p9uD3rakxSBgemks6r9j_8lfKqWP",
+                "active": true
+              }
+            ],
+            "responses": {},
+            "description": "Fetch all vehicles. Requires an authenticated token."
+          },
+          {
+            "v": "17",
+            "name": "Get Vehicle By Id",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/api/vehicles/1",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Fetch a single vehicle by ID. Requires an authenticated token."
+          },
+          {
+            "v": "17",
+            "name": "Update Vehicle",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/api/vehicles/1",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true,
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"vehicleName\": \"Updated Honda City\",\n  \"vehicleType\": \"CAR\",\n  \"registrationNumber\": \"MP09-100\",\n  \"pricePerDay\": 650,\n  \"imgUrl\": \"https://example.com/vehicle-updated.png\",\n  \"availabilityStatus\": true,\n  \"basicDetails\": \"Updated details\",\n  \"isActive\": true\n}"
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Update a vehicle by ID. Requires an ADMIN token."
+          },
+          {
+            "v": "17",
+            "name": "Delete Vehicle",
+            "method": "DELETE",
+            "endpoint": "<<baseUrl>>/api/vehicles/1",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Delete a vehicle by ID. Requires an ADMIN token."
+          }
+        ],
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "headers": [],
+        "variables": [],
+        "description": null,
+        "preRequestScript": "",
+        "testScript": ""
+      },
+      {
+        "v": 12,
+        "name": "Bookings",
+        "folders": [],
+        "requests": [
+          {
+            "v": "17",
+            "name": "Create Booking",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/api/bookings",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true,
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"vehicleId\": 1,\n  \"startDate\": \"2026-05-06\",\n  \"endDate\": \"2026-05-08\"\n}"
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Create a booking for the authenticated user."
+          },
+          {
+            "v": "17",
+            "name": "Get My Bookings",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/api/bookings/my",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Fetch bookings for the authenticated user."
+          },
+          {
+            "v": "17",
+            "name": "Get All Bookings",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/api/bookings/all",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Fetch all bookings. Requires an ADMIN token."
+          },
+          {
+            "v": "17",
+            "name": "Get Bookings By Vehicle Id",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/api/bookings/vehicle/1",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Fetch bookings for a specific vehicle."
+          },
+          {
+            "v": "17",
+            "name": "Cancel Booking",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/api/bookings/1/cancel",
+            "params": [],
+            "headers": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Cancel a booking by ID for the authenticated user."
+          },
+          {
+            "v": "17",
+            "name": "Update Rating",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/api/bookings/1/rating",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true,
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <<authToken>>",
+                "active": true,
+                "description": ""
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+              "authType": "inherit",
+              "authActive": true
+            },
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"rating\": 5\n}"
+            },
+            "requestVariables": [],
+            "responses": {},
+            "description": "Update the rating of a booking."
+          }
+        ],
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "headers": [],
+        "variables": [],
+        "description": null,
+        "preRequestScript": "",
+        "testScript": ""
+      }
+    ],
+    "requests": [],
+    "auth": {
+      "authType": "inherit",
+      "authActive": true
+    },
+    "headers": [],
+    "variables": [
+      {
+        "key": "baseUrl",
+        "initialValue": "http://localhost:8080",
+        "currentValue": "",
+        "secret": false
+      },
+      {
+        "key": "authToken",
+        "initialValue": "",
+        "currentValue": "",
+        "secret": false
+      }
+    ],
+    "description": "Postman collection for the Capstone Vehicle Rental System backend APIs.",
+    "preRequestScript": "",
+    "testScript": ""
+  },
+  {
+    "v": 12,
+    "name": "Capstone Vehicle Rental System Local",
+    "folders": [],
+    "requests": [],
+    "auth": {
+      "authType": "inherit",
+      "authActive": true
+    },
+    "headers": [],
+    "variables": [],
+    "description": null,
+    "preRequestScript": "",
+    "testScript": ""
+  }
+]
