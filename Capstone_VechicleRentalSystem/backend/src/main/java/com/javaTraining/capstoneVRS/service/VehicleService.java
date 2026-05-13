@@ -3,9 +3,10 @@ package com.javaTraining.capstoneVRS.service;
 import com.javaTraining.capstoneVRS.dto.request.VehicleRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.VehicleResponseDTO;
 import com.javaTraining.capstoneVRS.entity.Vehicle;
+import com.javaTraining.capstoneVRS.enums.BookingStatus;
 import com.javaTraining.capstoneVRS.repository.VehicleRepository;
 import com.javaTraining.capstoneVRS.repository.BookingRepository;
-import com.javaTraining.capstoneVRS.entity.BookingStatus;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,8 @@ public class VehicleService {
         vehicleRepo.findByRegistrationNumber(request.getRegistrationNumber())
                 .filter(existing -> !existing.getVehicleId().equals(vehicleId))
                 .ifPresent(v -> {
-                    log.warn("Update vehicle rejected because registration number exists vehicleId={} registrationNumber={}",
+                    log.warn(
+                            "Update vehicle rejected because registration number exists vehicleId={} registrationNumber={}",
                             vehicleId,
                             request.getRegistrationNumber());
                     throw new IllegalArgumentException("Registration number already exists");

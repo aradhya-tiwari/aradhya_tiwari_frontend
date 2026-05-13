@@ -2,7 +2,7 @@ package com.javaTraining.capstoneVRS.controller;
 
 import com.javaTraining.capstoneVRS.dto.request.BookingRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.BookingResponseDTO;
-import com.javaTraining.capstoneVRS.entity.BookingStatus;
+import com.javaTraining.capstoneVRS.enums.BookingStatus;
 import com.javaTraining.capstoneVRS.service.BookingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

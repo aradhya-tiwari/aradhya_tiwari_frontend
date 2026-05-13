@@ -1,8 +1,8 @@
 package com.javaTraining.capstoneVRS.dto.response;
 
-import com.javaTraining.capstoneVRS.entity.UserRole;
-
 import java.time.OffsetDateTime;
+
+import com.javaTraining.capstoneVRS.enums.UserRole;
 
 public class UserResponseDTO {
 

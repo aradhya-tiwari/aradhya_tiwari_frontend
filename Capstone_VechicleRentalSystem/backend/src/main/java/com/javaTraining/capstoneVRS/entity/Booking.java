@@ -17,6 +17,8 @@ import jakarta.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import com.javaTraining.capstoneVRS.enums.BookingStatus;
+
 @Entity
 @Table(name = "booking")
 public class Booking {

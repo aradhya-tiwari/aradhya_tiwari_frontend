@@ -1,6 +1,7 @@
 package com.javaTraining.capstoneVRS.dto.request;
 
-import com.javaTraining.capstoneVRS.entity.UserRole;
+import com.javaTraining.capstoneVRS.enums.UserRole;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

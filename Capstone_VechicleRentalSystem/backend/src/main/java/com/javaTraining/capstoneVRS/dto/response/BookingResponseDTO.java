@@ -1,9 +1,9 @@
 package com.javaTraining.capstoneVRS.dto.response;
 
-import com.javaTraining.capstoneVRS.entity.BookingStatus;
-
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+
+import com.javaTraining.capstoneVRS.enums.BookingStatus;
 
 public class BookingResponseDTO {
 

@@ -1,4 +1,4 @@
-package com.javaTraining.capstoneVRS.entity;
+package com.javaTraining.capstoneVRS.enums;
 
 public enum BookingStatus {
     PENDING,

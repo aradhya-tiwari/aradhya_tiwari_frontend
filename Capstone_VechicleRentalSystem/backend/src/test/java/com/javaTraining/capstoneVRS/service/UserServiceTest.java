@@ -6,7 +6,7 @@ import com.javaTraining.capstoneVRS.dto.request.LoginRequestDTO;
 import com.javaTraining.capstoneVRS.dto.request.SignupRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.AuthResponseDTO;
 import com.javaTraining.capstoneVRS.entity.User;
-import com.javaTraining.capstoneVRS.entity.UserRole;
+import com.javaTraining.capstoneVRS.enums.UserRole;
 import com.javaTraining.capstoneVRS.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

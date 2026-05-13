@@ -2,9 +2,9 @@ package com.javaTraining.capstoneVRS.service;
 
 import com.javaTraining.capstoneVRS.dto.request.VehicleRequestDTO;
 import com.javaTraining.capstoneVRS.dto.response.VehicleResponseDTO;
-import com.javaTraining.capstoneVRS.entity.BookingStatus;
 import com.javaTraining.capstoneVRS.entity.Vehicle;
-import com.javaTraining.capstoneVRS.entity.VehicleType;
+import com.javaTraining.capstoneVRS.enums.BookingStatus;
+import com.javaTraining.capstoneVRS.enums.VehicleType;
 import com.javaTraining.capstoneVRS.repository.BookingRepository;
 import com.javaTraining.capstoneVRS.repository.VehicleRepository;
 import org.junit.jupiter.api.BeforeEach;
