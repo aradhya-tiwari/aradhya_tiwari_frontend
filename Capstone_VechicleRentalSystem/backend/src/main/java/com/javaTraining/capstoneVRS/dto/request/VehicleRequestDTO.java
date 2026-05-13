@@ -1,6 +1,7 @@
 package com.javaTraining.capstoneVRS.dto.request;
 
-import com.javaTraining.capstoneVRS.entity.VehicleType;
+import com.javaTraining.capstoneVRS.enums.VehicleType;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

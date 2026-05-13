@@ -1,7 +1,8 @@
 package com.javaTraining.capstoneVRS.repository;
 
 import com.javaTraining.capstoneVRS.entity.Booking;
-import com.javaTraining.capstoneVRS.entity.BookingStatus;
+import com.javaTraining.capstoneVRS.enums.BookingStatus;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

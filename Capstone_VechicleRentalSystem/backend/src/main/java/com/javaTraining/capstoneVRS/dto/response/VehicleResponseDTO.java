@@ -1,8 +1,8 @@
 package com.javaTraining.capstoneVRS.dto.response;
 
-import com.javaTraining.capstoneVRS.entity.VehicleType;
-
 import java.time.OffsetDateTime;
+
+import com.javaTraining.capstoneVRS.enums.VehicleType;
 
 public class VehicleResponseDTO {
 

@@ -14,6 +14,8 @@ import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import com.javaTraining.capstoneVRS.enums.VehicleType;
+
 @Entity
 @Table(name = "vehicle")
 public class Vehicle {
